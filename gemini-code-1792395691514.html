@@ -1,0 +1,2661 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Hệ thống Chấm điểm KPI A1-A2-A3 · Công an tỉnh Hưng Yên</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Roboto+Slab:wght@400;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* ==================== DESIGN SYSTEM & TOKENS ==================== */
+:root {
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --surface-hover: #f1f5f9;
+  --fg: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --accent: #9b1c1c;
+  --accent-fg: #ffffff;
+  --gold: #c9a227;
+  --ok: #10b981;
+  --info: #2563eb;
+  --warn: #d97706;
+  --bad: #dc2626;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b0f19;
+    --surface: #111827;
+    --surface-2: #1e293b;
+    --surface-hover: #334155;
+    --fg: #f8fafc;
+    --muted: #94a3b8;
+    --line: #1e293b;
+    --accent: #ef4444;
+    --accent-fg: #ffffff;
+    --ok: #34d399;
+    --info: #60a5fa;
+    --warn: #fbbf24;
+    --bad: #f87171;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0b0f19;
+  --surface: #111827;
+  --surface-2: #1e293b;
+  --surface-hover: #334155;
+  --fg: #f8fafc;
+  --muted: #94a3b8;
+  --line: #1e293b;
+  --accent: #ef4444;
+  --accent-fg: #ffffff;
+  --ok: #34d399;
+  --info: #60a5fa;
+  --warn: #fbbf24;
+  --bad: #f87171;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font, "Be Vietnam Pro"), system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+  padding-inline: max(20px, env(safe-area-inset-left, 0px)) max(20px, env(safe-area-inset-right, 0px));
+  padding-block-end: 48px;
+  -webkit-font-smoothing: antialiased;
+}
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+h2 { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+h3 { margin: 0; font-size: 14px; font-weight: 700; }
+small { color: var(--muted); font-size: 12px; }
+
+.wrap { max-width: 1400px; margin: 18px auto 0; display: grid; gap: 16px; position: relative; z-index: 1; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  min-width: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.num { font-variant-numeric: tabular-nums; }
+.c { text-align: center; }
+.nowrap { white-space: nowrap; }
+.muted { color: var(--muted); }
+.bad-text { color: var(--bad); font-weight: 600; }
+
+/* ==================== HEADER & BANNER ==================== */
+#banner {
+  margin-inline: calc(-1 * max(20px, env(safe-area-inset-left, 0px))) calc(-1 * max(20px, env(safe-area-inset-right, 0px)));
+  height: 140px;
+  background-size: cover;
+  background-position: center;
+  border-bottom: 3px solid var(--gold, #c9a227);
+  background-color: var(--surface-2);
+  transition: height 0.3s ease;
+}
+
+.top {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 30;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  border-top: 4px solid var(--gold, #c9a227);
+  margin-inline: calc(-1 * max(20px, env(safe-area-inset-left, 0px))) calc(-1 * max(20px, env(safe-area-inset-right, 0px)));
+  padding: 12px max(20px, env(safe-area-inset-left, 0px));
+}
+.top-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+}
+.brand-wrap { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.crest {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #000));
+  border: 2px solid var(--gold);
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 30%, transparent);
+  flex-shrink: 0;
+}
+.crest svg { width: 24px; height: 24px; fill: currentColor; }
+.brand { min-width: 0; }
+.kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+.meta { color: var(--muted); font-size: 12.5px; font-weight: 500; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.meta-badge {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  padding: 1px 8px;
+  border-radius: 99px;
+  font-weight: 600;
+  color: var(--fg);
+}
+.actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+.warn {
+  background: color-mix(in srgb, var(--warn) 12%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--warn) 40%, transparent);
+  color: var(--fg);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ==================== BUTTONS & INPUTS ==================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--fg);
+  font: inherit;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+.btn svg { width: 15px; height: 15px; stroke-width: 2.2; flex-shrink: 0; }
+.btn:hover { background: var(--surface-2); border-color: color-mix(in srgb, var(--muted) 40%, var(--line)); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: transparent;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--accent) 90%, #000);
+  border-color: transparent;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.btn-danger { background: var(--bad); color: #fff; border-color: transparent; }
+.btn-danger:hover { background: color-mix(in srgb, var(--bad) 88%, #000); }
+.btn-ghost { background: transparent; border-color: transparent; box-shadow: none; }
+.btn-ghost:hover { background: var(--surface-2); border-color: transparent; }
+.btn-sm { min-height: 30px; padding: 4px 10px; font-size: 12px; border-radius: var(--radius-sm); }
+
+input, select, textarea {
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--fg);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  width: 100%;
+  min-width: 0;
+  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+input:hover, select:hover, textarea:hover { border-color: color-mix(in srgb, var(--muted) 50%, var(--line)); }
+input:focus, select:focus, textarea:focus {
+  background: var(--surface);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
+  outline: none;
+}
+textarea { resize: vertical; }
+label.lbl {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.grid-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+.span-2 { grid-column: span 2; }
+@media (max-width: 560px) { .span-2 { grid-column: auto; } }
+
+/* ==================== SETTINGS & BENTO KPI CARDS ==================== */
+.settings {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1fr 1fr;
+  gap: 14px;
+  align-items: end;
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+}
+@media (max-width: 900px) { .settings { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .settings { grid-template-columns: 1fr; } }
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+@media (max-width: 1100px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .kpis { grid-template-columns: 1fr; } }
+
+.kpi {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.kpi:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.12);
+}
+.kpi-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.kpi-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+}
+.kpi-icon svg { width: 18px; height: 18px; }
+
+.metric-row { display: grid; gap: 5px; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 13px; }
+.kv span { color: var(--muted); font-weight: 500; }
+.kv b { font-variant-numeric: tabular-nums; font-size: 14px; font-weight: 700; }
+
+.bar-track {
+  height: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.3s ease;
+}
+
+.score-hero {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px dashed var(--line);
+}
+.score-hero .lbl-total { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--muted); }
+.big { font-size: 28px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.1; color: var(--fg); letter-spacing: -0.02em; }
+
+.pill {
+  --c: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
+  justify-self: start;
+  max-width: 100%;
+}
+.pill::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c);
+  flex-shrink: 0;
+}
+.t-ok { --c: var(--ok); }
+.t-info { --c: var(--info); }
+.t-warn { --c: var(--warn); }
+.t-bad { --c: var(--bad); }
+
+/* ==================== TABS & TOOLBAR ==================== */
+.tabs-wrap {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tab {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  padding: 9px 16px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+.tab:hover { color: var(--fg); background: var(--surface-2); }
+.tab[aria-selected="true"] {
+  color: var(--accent-fg);
+  background: var(--accent);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.tab-badge {
+  font-size: 11px;
+  padding: 1px 7px;
+  border-radius: 99px;
+  background: color-mix(in srgb, currentColor 15%, transparent);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.toolbar .filters { display: flex; gap: 10px; flex-wrap: wrap; flex: 1 1 340px; justify-content: flex-end; align-items: center; }
+.search-box { position: relative; flex: 1 1 240px; max-width: 360px; }
+.search-box svg {
+  position: absolute;
+  left: 12px; top: 50%;
+  transform: translateY(-50%);
+  width: 15px; height: 15px;
+  color: var(--muted);
+  pointer-events: none;
+}
+.search-box input { padding-left: 34px; }
+.toolbar select { width: auto; min-width: 160px; }
+
+/* ==================== TABLES (STICKY & MODERN) ==================== */
+.tbl-wrap {
+  overflow: auto;
+  max-height: 70vh;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+table { border-collapse: separate; border-spacing: 0; width: 100%; font-size: 13px; }
+th, td {
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 10px;
+  vertical-align: middle;
+}
+th:last-child, td:last-child { border-right: 0; }
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--surface-2);
+  font-weight: 700;
+  text-align: center;
+  font-size: 12px;
+  color: var(--fg);
+  box-shadow: inset 0 -1px 0 var(--line);
+}
+thead tr:nth-child(2) th { top: 39px; z-index: 4; }
+
+/* Sticky first 2 columns on A2 table for horizontal scrolling */
+.tbl-a2 th:nth-child(1), .tbl-a2 td:nth-child(1) {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  background: var(--surface);
+}
+.tbl-a2 thead th:nth-child(1) { z-index: 6; background: var(--surface-2); }
+
+td { background: var(--surface); transition: background-color 0.1s ease; }
+tbody tr:hover td { background: var(--surface-hover); }
+tr.grp td { background: color-mix(in srgb, var(--accent) 6%, var(--surface-2)); font-size: 13px; }
+tr.dim td { color: var(--muted); opacity: 0.75; }
+tfoot td {
+  position: sticky;
+  bottom: 0;
+  z-index: 4;
+  background: var(--surface-2);
+  font-weight: 700;
+  border-top: 2px solid var(--line);
+}
+.empty { text-align: center; color: var(--muted); padding: 40px 16px; font-size: 14px; }
+
+/* A1 Segmented Pill Toggle */
+.a1-toggle {
+  display: inline-flex;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+.a1-toggle label {
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+.a1-toggle input { display: none; }
+.a1-toggle label.opt-ok:has(input:checked) {
+  background: var(--ok);
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(16, 185, 129, 0.3);
+}
+.a1-toggle label.opt-no:has(input:checked) {
+  background: var(--bad);
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(220, 38, 38, 0.3);
+}
+.a1-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 10px;
+}
+.a1-section-head:first-of-type { margin-top: 4px; }
+
+/* ==================== GUIDE CARDS ==================== */
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+.guide-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+.guide-card h3 {
+  color: var(--accent);
+  font-size: 14px;
+  line-height: 1.4;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.rule-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.rule-list li {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+.rule-pts {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==================== EVIDENCE & DIALOGS ==================== */
+.ev-list { display: grid; gap: 8px; }
+.ev-list:empty { display: none; }
+.ev-item { display: flex; gap: 12px; align-items: center; border: 1px solid var(--line); border-radius: var(--radius-md); padding: 10px; background: var(--surface-2); }
+.ev-thumb { width: 64px; height: 48px; object-fit: cover; border-radius: 6px; border: 1px solid var(--line); flex: none; }
+.ev-doc { width: 64px; height: 48px; display: grid; place-items: center; border-radius: 6px; border: 1px solid var(--line); flex: none; font-weight: 700; font-size: 12px; color: var(--bad); background: color-mix(in srgb, var(--bad) 10%, transparent); }
+.ev-info { min-width: 0; flex: 1; display: grid; gap: 2px; }
+.ev-info a { overflow-wrap: anywhere; color: var(--info); font-weight: 600; text-decoration: none; }
+.ev-info a:hover { text-decoration: underline; }
+
+dialog {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--fg);
+  padding: 0;
+  width: min(780px, calc(100vw - 28px));
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+}
+dialog::backdrop { background: rgba(15, 23, 42, 0.55); backdrop-filter: blur(4px); }
+.dlg-head {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 16px 20px; border-bottom: 1px solid var(--line); background: var(--surface);
+}
+.dlg-body { padding: 20px; display: grid; gap: 16px; }
+.dlg-foot {
+  position: sticky; bottom: 0; z-index: 5;
+  display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px;
+  padding: 14px 20px; border-top: 1px solid var(--line); background: var(--surface-2);
+}
+
+.preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.preview div {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  text-align: center;
+  background: var(--surface-2);
+}
+.preview strong { display: block; font-size: 20px; font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; margin-top: 2px; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
+textarea.mono { min-height: 150px; }
+
+#toast {
+  position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  transform: translate(-50%, 16px);
+  background: var(--fg); color: var(--bg);
+  padding: 10px 18px; border-radius: 99px;
+  font-size: 13px; font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s;
+  max-width: calc(100vw - 32px); z-index: 100;
+}
+#toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ==================== CUSTOMIZATION THEMES & STYLES ==================== */
+.swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.swatch { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--fg); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; text-align: left; }
+.swatch i { width: 20px; height: 20px; border-radius: 50%; flex: none; border: 1px solid var(--line); background: linear-gradient(135deg, var(--a) 0 55%, var(--g) 55% 100%); }
+.swatch[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 1px; background: var(--surface-2); }
+.bgset { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 0; min-width: 0; }
+.bgset legend { width: 100%; padding: 0 4px; }
+.bgset label { display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; }
+input[type="radio"] { width: auto; padding: 0; accent-color: var(--accent); }
+.foot { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+.linkbtn { background: none; border: 0; color: var(--muted); font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
+.linkbtn:hover { color: var(--fg); background: var(--surface-2); }
+
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+[data-panel]:not([hidden]) { animation: rise 0.25s ease both; }
+
+/* Phong cách mở rộng */
+:root[data-style="giay"] { --bg:#efe6d2; --surface:#faf5e8; --surface-2:#f3ecdb; --fg:#2b2118; --muted:#7a6a55; --line:#d7c4a0; color-scheme: light; }
+:root[data-style="lua"] { --bg:#f5eef2; --surface:#fffbfd; --surface-2:#f9f1f5; --fg:#3a2435; --muted:#7d6676; --line:#e7d7e0; color-scheme: light; }
+:root[data-style="ngoc"] { --bg:#e9f3ef; --surface:#fbfffd; --surface-2:#f0f8f4; --fg:#1b3430; --muted:#5b7772; --line:#cfe3dc; color-scheme: light; }
+:root[data-style="gach"] { --bg:#ece5dd; --surface:#faf6f1; --surface-2:#f4ede5; --fg:#2a211d; --muted:#76665c; --line:#d9cabd; color-scheme: light; }
+:root[data-style="tro"] { --bg:#e4e7eb; --surface:#f6f7f9; --surface-2:#edf0f3; --fg:#1f2937; --muted:#5b6678; --line:#cdd3dc; color-scheme: light; }
+:root[data-style="mucTau"] { --bg:#0d0d0e; --surface:#17171a; --surface-2:#1e1e22; --fg:#ece6d8; --muted:#a09a8c; --line:#34322e; color-scheme: dark; }
+:root[data-style="dem"] { --bg:#0a1322; --surface:#111c2f; --surface-2:#172440; --fg:#dde7f7; --muted:#8e9bb5; --line:#22345a; color-scheme: dark; }
+
+body::after { content:""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0; }
+html[data-texture="grain"] body::after { opacity: .06; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+html[data-texture="lines"] body::after { opacity: .35; background-image: repeating-linear-gradient(0deg, transparent 0 27px, var(--line) 27px 28px); }
+html[data-texture="dots"] body { background-image: radial-gradient(color-mix(in srgb, var(--fg) 12%, transparent) 1px, transparent 1px); background-size: 18px 18px; }
+html[data-texture="wash"] body {
+  background-image:
+    radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 42%),
+    radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--gold, #b8860b) 16%, transparent), transparent 40%);
+}
+
+html[data-size="sm"] body { font-size: 12.5px; }
+html[data-size="lg"] body { font-size: 15px; }
+html[data-density="compact"] th, html[data-density="compact"] td { padding: 5px 6px !important; }
+html[data-density="comfy"] th, html[data-density="comfy"] td { padding: 12px 14px !important; }
+
+html[data-radius="square"] .card, html[data-radius="square"] dialog, html[data-radius="square"] .tbl-wrap,
+html[data-radius="square"] .btn, html[data-radius="square"] input, html[data-radius="square"] select,
+html[data-radius="square"] textarea, html[data-radius="square"] .tabs-wrap, html[data-radius="square"] .tab { border-radius: 3px !important; }
+
+html[data-radius="round"] .card, html[data-radius="round"] dialog, html[data-radius="round"] .tbl-wrap,
+html[data-radius="round"] .tabs-wrap { border-radius: 20px !important; }
+html[data-radius="round"] .btn, html[data-radius="round"] input, html[data-radius="round"] select, html[data-radius="round"] .tab { border-radius: 999px !important; }
+
+html[data-shadow="soft"] .card { box-shadow: 0 1px 3px rgba(15,23,42,.04), 0 8px 24px -12px rgba(15,23,42,.12); }
+html[data-shadow="deep"] .card { box-shadow: 0 4px 6px rgba(15,23,42,.07), 0 18px 36px -14px rgba(15,23,42,.35); }
+html[data-cardbar="accent"] .card { border-top: 3px solid var(--accent); }
+html[data-cardbar="gold"] .card { border-top: 3px solid var(--gold, #b8860b); }
+
+html[data-tab="pill"] .tab { border-radius: 999px; }
+html[data-tab="underline"] .tabs-wrap { background: transparent; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; padding: 0; }
+html[data-tab="underline"] .tab { border-radius: 0; border: 0; border-bottom: 3px solid transparent; padding-inline: 12px; }
+html[data-tab="underline"] .tab[aria-selected="true"] { background: transparent; color: var(--accent); border-bottom-color: var(--accent); box-shadow: none; }
+
+html[data-header="accent"] .top { background: var(--accent); color: var(--accent-fg); border-bottom-color: transparent; }
+html[data-header="accent"] .top .kicker, html[data-header="accent"] .top .meta { color: var(--accent-fg); opacity: .9; }
+html[data-motion="off"] *, html[data-motion="off"] *::before, html[data-motion="off"] *::after { animation: none !important; transition: none !important; }
+
+html[data-pagebg="custom"] body {
+  background-color: var(--bg);
+  background-image: linear-gradient(color-mix(in srgb, var(--bg) var(--ov, 60%), transparent), color-mix(in srgb, var(--bg) var(--ov, 60%), transparent)), var(--page-img);
+  background-size: cover; background-position: center; background-attachment: fixed; background-repeat: no-repeat;
+}
+
+#themeDlg { width: min(620px, 94vw); }
+.ui-groups { display: grid; gap: 10px; }
+
+/* ==================== PRINT STYLESHEET (A4 REPORT) ==================== */
+@media print {
+  body { background: #fff !important; color: #000 !important; padding: 0 !important; font-size: 11.5pt; }
+  #banner, .actions, .tabs-wrap, .toolbar .filters, #btnAddInit, .foot, .a1-quick-btn, th:last-child, td:last-child { display: none !important; }
+  .top { position: static !important; border: 0 !important; border-bottom: 2px solid #000 !important; padding: 8px 0 !important; margin: 0 0 12px !important; background: none !important; }
+  .card { border: 1px solid #999 !important; box-shadow: none !important; page-break-inside: avoid; padding: 10px !important; }
+  .tbl-wrap { max-height: none !important; overflow: visible !important; border: 1px solid #000 !important; }
+  table, th, td { border: 1px solid #333 !important; }
+  thead th, tfoot td { position: static !important; background: #eee !important; color: #000 !important; }
+}
+</style>
+</head>
+<body>
+
+<div id="banner" hidden></div>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand-wrap">
+      <div class="crest" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4zm0 4.3l2.12 4.3 4.75.69-3.44 3.35.81 4.73L12 17.14l-4.24 2.23.81-4.73-3.44-3.35 4.75-.69L12 6.3z"/></svg>
+      </div>
+      <div class="brand">
+        <div class="kicker">Công an tỉnh Hưng Yên · Hệ thống Đánh giá Cán bộ</div>
+        <h1>Chấm điểm KPI (Mẫu A1 – A2 – A3)</h1>
+        <div class="meta">
+          <span class="meta-badge" id="unitLabel"></span>
+          <span>·</span>
+          <span class="meta-badge" id="periodLabel"></span>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary" id="btnAddTask">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>
+        Thêm nhiệm vụ
+      </button>
+      <button class="btn" id="btnCopyExcel" title="Sao chép bảng A1, A2 và A3 để dán vào Excel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        Chép Excel
+      </button>
+      <button class="btn" id="btnPrint" title="In biểu mẫu hoặc lưu thành PDF">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        In phiếu
+      </button>
+      <button class="btn" id="btnClose" title="Lưu kỳ này vào lịch sử và chuyển sang kỳ mới">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+        Chốt kỳ
+      </button>
+      <button class="btn" id="btnData">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Sao lưu
+      </button>
+      <button class="btn btn-ghost" id="btnTheme">Chế độ tối</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="warn" id="storageWarn" role="alert" hidden>
+    ⚠️ Trình duyệt này đang chặn lưu trữ cục bộ. Thay đổi chỉ tồn tại trong phiên hiện tại, hãy bấm <b>"Sao lưu"</b> để tải file dữ liệu về máy.
+  </div>
+
+  <!-- Cài đặt chung -->
+  <section class="card settings" aria-label="Thông tin đơn vị và hệ số">
+    <div>
+      <label class="lbl" for="sUnit">Đơn vị công tác</label>
+      <input id="sUnit" type="text" placeholder="Ví dụ: Phòng An ninh chính trị nội bộ">
+    </div>
+    <div>
+      <label class="lbl" for="sPeriod">Kỳ đánh giá</label>
+      <input id="sPeriod" type="text" placeholder="Ví dụ: Tháng 10/2026">
+    </div>
+    <div>
+      <label class="lbl" for="sD">Hệ số D (Người đứng đầu)</label>
+      <input id="sD" type="number" step="0.01" min="0" max="1.5" inputmode="decimal">
+    </div>
+    <div>
+      <label class="lbl" for="sBonus">Điểm thưởng sáng kiến (+)</label>
+      <input id="sBonus" type="number" step="0.5" min="0" max="20" inputmode="decimal">
+    </div>
+  </section>
+
+  <!-- Bento KPI Cards -->
+  <section class="kpis" aria-label="Kết quả tổng hợp">
+    <!-- Card 1: Hệ số thành phần -->
+    <div class="card kpi">
+      <div class="kpi-head">
+        <h2>Hệ số thành phần (A2)</h2>
+        <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+      </div>
+      <div class="metric-row">
+        <div class="kv"><span>Số lượng (A)</span><b id="sRA">0.000</b></div>
+        <div class="bar-track"><div class="bar-fill" id="barA"></div></div>
+      </div>
+      <div class="metric-row">
+        <div class="kv"><span>Chất lượng (B)</span><b id="sRB">0.000</b></div>
+        <div class="bar-track"><div class="bar-fill" id="barB"></div></div>
+      </div>
+      <div class="metric-row">
+        <div class="kv"><span>Tiến độ (C)</span><b id="sRC">0.000</b></div>
+        <div class="bar-track"><div class="bar-fill" id="barC"></div></div>
+      </div>
+    </div>
+
+    <!-- Card 2: Tập thể -->
+    <div class="card kpi">
+      <div class="kpi-head">
+        <h2>Kết quả Tập thể</h2>
+        <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+      </div>
+      <div style="display:grid; gap:4px">
+        <div class="kv"><span>Điểm K = (A+B+C)/3 × 55</span><b id="sKG">0.00</b></div>
+        <div class="kv"><span>Điểm E tập thể (Mẫu A1)</span><b id="sEG">0</b></div>
+      </div>
+      <div class="score-hero">
+        <span class="lbl-total">Tổng điểm</span>
+        <span class="big" id="sTG">0.00</span>
+      </div>
+      <div style="display:grid; gap:4px">
+        <span class="pill" id="sRankG">–</span>
+        <small id="sNoteG"></small>
+      </div>
+    </div>
+
+    <!-- Card 3: Cá nhân người đứng đầu -->
+    <div class="card kpi">
+      <div class="kpi-head">
+        <h2>Cá nhân Người đứng đầu</h2>
+        <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      </div>
+      <div style="display:grid; gap:4px">
+        <div class="kv"><span>Điểm K = (A+B+C+D)/4 × 55</span><b id="sKL">0.00</b></div>
+        <div class="kv"><span>Điểm E cá nhân (Mẫu A1)</span><b id="sEL">0</b></div>
+      </div>
+      <div class="score-hero">
+        <span class="lbl-total">Tổng điểm</span>
+        <span class="big" id="sTL">0.00</span>
+      </div>
+      <div style="display:grid; gap:4px">
+        <span class="pill" id="sRankL">–</span>
+        <small id="sNoteL"></small>
+      </div>
+    </div>
+
+    <!-- Card 4: Tiến độ nhiệm vụ -->
+    <div class="card kpi">
+      <div class="kpi-head">
+        <h2>Tiến độ Nhiệm vụ</h2>
+        <div class="kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+      </div>
+      <div>
+        <div class="big" id="sDone">0/0</div>
+        <small>Hoàn thành / Tổng nhiệm vụ đến hạn</small>
+      </div>
+      <div class="bar-track"><div class="bar-fill" id="barDone"></div></div>
+      <div class="kv" style="padding-top:4px; border-top:1px dashed var(--line)">
+        <span>Tổng điểm được giao</span>
+        <b id="sSum">0</b>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation Tabs -->
+  <nav class="tabs-wrap" role="tablist" aria-label="Chọn biểu mẫu">
+    <button class="tab" role="tab" data-tab="a1" aria-selected="true">
+      Biểu mẫu A1: Tiêu chí chung
+      <span class="tab-badge" id="badgeA1">0/60</span>
+    </button>
+    <button class="tab" role="tab" data-tab="a2" aria-selected="false">
+      Biểu mẫu A2: Nhiệm vụ được giao
+      <span class="tab-badge" id="badgeA2">0</span>
+    </button>
+    <button class="tab" role="tab" data-tab="a3" aria-selected="false">
+      Biểu mẫu A3: Đột phá, sáng kiến
+      <span class="tab-badge" id="badgeA3">0</span>
+    </button>
+    <button class="tab" role="tab" data-tab="hist" aria-selected="false">
+      Lịch sử các kỳ
+      <span class="tab-badge" id="badgeHist">0</span>
+    </button>
+    <button class="tab" role="tab" data-tab="guide" aria-selected="false">
+      Khung điểm & Quy tắc
+    </button>
+  </nav>
+
+  <!-- PANEL A1 -->
+  <section class="card" data-panel="a1" role="tabpanel">
+    <div class="toolbar">
+      <div>
+        <h2>Biểu mẫu A1: Điểm chấm tiêu chí chung (Điểm E)</h2>
+        <small>Chọn <b>"✓ Đạt"</b> để nhận điểm tối đa, hoặc <b>"✕ Không"</b> (0 điểm). Ô ghi chú dùng để nhập số hiệu văn bản hoặc minh chứng.</small>
+      </div>
+    </div>
+
+    <div class="a1-section-head">
+      <h3>I. Đối với tập thể đơn vị <span class="pill t-info" id="a1TeamTotal" style="margin-left:8px">0 / 30 điểm</span></h3>
+      <button type="button" class="btn btn-sm a1-quick-btn" id="btnAllTeamOk">✓ Đánh giá Đạt tất cả (Tập thể)</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th style="width:52px">TT</th>
+          <th>Tiêu chí / Nội dung đánh giá</th>
+          <th style="width:90px">Điểm tối đa</th>
+          <th style="width:165px">Đánh giá</th>
+          <th style="width:84px">Điểm đạt</th>
+          <th style="width:240px">Ghi chú / Minh chứng</th>
+        </tr></thead>
+        <tbody id="a1Team"></tbody>
+      </table>
+    </div>
+
+    <div class="a1-section-head" style="margin-top:24px">
+      <h3>II. Đối với cá nhân là lãnh đạo, chỉ huy <span class="pill t-info" id="a1LeaderTotal" style="margin-left:8px">0 / 30 điểm</span></h3>
+      <button type="button" class="btn btn-sm a1-quick-btn" id="btnAllLeaderOk">✓ Đánh giá Đạt tất cả (Cá nhân)</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th style="width:52px">TT</th>
+          <th>Tiêu chí / Nội dung đánh giá</th>
+          <th style="width:90px">Điểm tối đa</th>
+          <th style="width:165px">Đánh giá</th>
+          <th style="width:84px">Điểm đạt</th>
+          <th style="width:240px">Ghi chú / Minh chứng</th>
+        </tr></thead>
+        <tbody id="a1Leader"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PANEL A2 -->
+  <section class="card" data-panel="a2" role="tabpanel" hidden>
+    <div class="toolbar">
+      <div>
+        <h2>Biểu mẫu A2: Chấm điểm nhiệm vụ được giao</h2>
+        <small>Điểm giao theo khung Điều 3; Điểm Số lượng (A), Chất lượng (B), Tiến độ (C) tự động tính theo Điều 5.</small>
+      </div>
+      <div class="filters">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="search" id="search" placeholder="Tìm nhiệm vụ, sản phẩm, lãnh đạo..." aria-label="Tìm nhiệm vụ">
+        </div>
+        <select id="statusFilter" aria-label="Lọc theo trạng thái">
+          <option value="ALL">Tất cả trạng thái</option>
+          <option value="COMPLETED">Hoàn thành</option>
+          <option value="PENDING">Chưa hoàn thành</option>
+          <option value="NOT_DUE">Chưa đến kỳ</option>
+        </select>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl-a2">
+        <thead>
+          <tr>
+            <th rowspan="2" style="width:46px">STT</th>
+            <th rowspan="2" style="min-width:240px">Nhiệm vụ cụ thể</th>
+            <th colspan="6">Điểm nhiệm vụ được giao</th>
+            <th colspan="7">Thực tế triển khai và tự chấm</th>
+            <th rowspan="2" style="width:100px">Thao tác</th>
+          </tr>
+          <tr>
+            <th>Sản phẩm giao</th>
+            <th>Hạn hoàn thành</th>
+            <th>Lãnh đạo chỉ đạo</th>
+            <th>Cấp trình / giao / ký</th>
+            <th>Điểm giao</th>
+            <th>Hệ số</th>
+            <th>Sản phẩm thực tế</th>
+            <th>Trạng thái</th>
+            <th>Điểm SL (A)</th>
+            <th>Tỷ lệ CL / Số lần sửa</th>
+            <th>Điểm CL (B)</th>
+            <th>Ngày hoàn thành</th>
+            <th>Điểm TĐ (C)</th>
+          </tr>
+        </thead>
+        <tbody id="taskBody"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6" style="text-align:right">Bước 1: Tổng điểm các nhiệm vụ đến kỳ đánh giá</td>
+            <td class="c num" id="tAssigned">0</td>
+            <td colspan="3"></td>
+            <td class="c num" id="tA">0</td>
+            <td></td>
+            <td class="c num" id="tB">0</td>
+            <td></td>
+            <td class="c num" id="tC">0</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="6" style="text-align:right">Bước 2: Hệ số thành phần = Điểm đạt ÷ Điểm giao</td>
+            <td></td>
+            <td colspan="3"></td>
+            <td class="c num" id="tRA" style="color:var(--accent)">0.000</td>
+            <td></td>
+            <td class="c num" id="tRB" style="color:var(--accent)">0.000</td>
+            <td></td>
+            <td class="c num" id="tRC" style="color:var(--accent)">0.000</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+  <!-- PANEL A3 -->
+  <section class="card" data-panel="a3" role="tabpanel" hidden>
+    <div class="toolbar">
+      <div>
+        <h2>Biểu mẫu A3: Thống kê đột phá, sáng kiến trong thực hiện nhiệm vụ</h2>
+        <small>Ghi rõ số liệu kiểm chứng thực tế và tác động trực tiếp đến công tác bảo đảm ANTT.</small>
+      </div>
+      <button class="btn btn-primary" id="btnAddInit">+ Thêm đột phá, sáng kiến</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:52px">STT</th>
+            <th style="min-width:220px">Nội dung đột phá, sáng kiến</th>
+            <th style="width:125px">Bắt đầu</th>
+            <th style="width:125px">Hoàn thành</th>
+            <th>Hiệu quả ứng dụng trong thực tiễn (Số liệu kiểm chứng)</th>
+            <th style="width:180px">Thao tác & Minh chứng</th>
+          </tr>
+        </thead>
+        <tbody id="initBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PANEL HISTORY -->
+  <section class="card" data-panel="hist" role="tabpanel" hidden>
+    <div class="toolbar">
+      <div>
+        <h2>Lịch sử các kỳ đánh giá đã chốt</h2>
+        <small>Mỗi kỳ được lưu trữ tự động khi bấm <b>"Chốt kỳ"</b>. Bạn có thể xuất lại dữ liệu ra Excel bất cứ lúc nào.</small>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Kỳ đánh giá</th>
+            <th>Đơn vị</th>
+            <th>Số nhiệm vụ</th>
+            <th>Điểm giao</th>
+            <th>Hệ số A</th>
+            <th>Hệ số B</th>
+            <th>Hệ số C</th>
+            <th>Tổng Tập thể</th>
+            <th>Xếp loại Tập thể</th>
+            <th>Tổng Cá nhân</th>
+            <th>Xếp loại Cá nhân</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="histBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PANEL GUIDE -->
+  <section class="card" data-panel="guide" role="tabpanel" hidden>
+    <div class="toolbar" style="margin-bottom:8px">
+      <div>
+        <h2>Định hướng khung điểm cho 01 nhiệm vụ (Theo Điều 3)</h2>
+        <small>Khi bấm "Thêm nhiệm vụ", bạn có thể chọn nhanh các nhóm dưới đây để phần mềm tự động điền điểm chuẩn.</small>
+      </div>
+    </div>
+    <div class="guide-grid">
+      <div class="guide-card">
+        <h3>1. Nhiệm vụ thuộc chương trình, kế hoạch, đề án… lãnh đạo cấp trên giao, có sản phẩm tham mưu trình các cấp</h3>
+        <ul class="rule-list">
+          <li><span>Trình Đảng ủy CATW, Bộ CA, Tỉnh ủy, UBND tỉnh <b>(Ban hành)</b></span><span class="rule-pts">35 điểm</span></li>
+          <li><span>Trình Đảng ủy CATW, Bộ CA, Tỉnh ủy, UBND tỉnh <b>(Cho ý kiến)</b></span><span class="rule-pts">30 điểm</span></li>
+          <li><span>Trình cấp Cục, Công an cấp tỉnh <b>(Ban hành)</b></span><span class="rule-pts">25 điểm</span></li>
+          <li><span>Trình cấp Cục, Công an cấp tỉnh <b>(Cho ý kiến)</b></span><span class="rule-pts">20 điểm</span></li>
+          <li><span>Trình cấp phòng; cấp ủy, chính quyền cấp xã <b>(Ban hành)</b></span><span class="rule-pts">15 điểm</span></li>
+          <li><span>Trình cấp phòng; cấp ủy, chính quyền cấp xã <b>(Cho ý kiến)</b></span><span class="rule-pts">10 điểm</span></li>
+          <li><span>Nhiệm vụ tham mưu khác</span><span class="rule-pts">10 điểm</span></li>
+        </ul>
+      </div>
+
+      <div class="guide-card">
+        <h3>2. Nhiệm vụ triển khai theo chỉ đạo của cấp trên, có sản phẩm cụ thể trong thực tiễn (không phải trình ban hành)</h3>
+        <ul class="rule-list">
+          <li><span>Nhiệm vụ Tỉnh ủy, UBND tỉnh giao (Đảng ủy, GĐ Công an tỉnh giao chủ trì)</span><span class="rule-pts">30 điểm</span></li>
+          <li><span>Nhiệm vụ cấp Cục, Giám đốc Công an tỉnh giao</span><span class="rule-pts">25 điểm</span></li>
+          <li><span>Nhiệm vụ cấp phòng; cấp ủy, chính quyền cấp xã giao</span><span class="rule-pts">15 điểm</span></li>
+          <li><span>Nhiệm vụ Công an cấp xã, cấp Đội giao</span><span class="rule-pts">10 điểm</span></li>
+          <li><span>Nhiệm vụ triển khai thực tiễn khác</span><span class="rule-pts">5 điểm</span></li>
+        </ul>
+      </div>
+
+      <div class="guide-card">
+        <h3>3. Nhiệm vụ chủ động báo cáo lên cấp trên từ thực tiễn công tác (không thuộc chương trình, kế hoạch định sẵn)</h3>
+        <ul class="rule-list">
+          <li><span>Văn bản, báo cáo do lãnh đạo Tỉnh ủy, UBND tỉnh ký</span><span class="rule-pts">35 điểm</span></li>
+          <li><span>Văn bản, báo cáo do lãnh đạo Công an tỉnh ký</span><span class="rule-pts">30 điểm</span></li>
+          <li><span>Văn bản, báo cáo do lãnh đạo cấp Phòng ký</span><span class="rule-pts">20 điểm</span></li>
+          <li><span>Văn bản, báo cáo do lãnh đạo Công an cấp xã, cấp Đội ký</span><span class="rule-pts">15 điểm</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Hệ thống Chấm điểm KPI Nội bộ · Lưu trữ an toàn trên trình duyệt máy tính</span>
+    <button type="button" class="linkbtn" id="btnUI">🎨 Tùy chỉnh giao diện & Chủ đề màu</button>
+  </footer>
+</main>
+
+<!-- ==================== DIALOGS ==================== -->
+<!-- Task dialog -->
+<dialog id="taskDlg" aria-labelledby="taskTitle">
+  <form id="taskForm" novalidate>
+    <div class="dlg-head">
+      <h2 id="taskTitle">Nhiệm vụ (Mẫu A2)</h2>
+      <button type="button" class="btn btn-ghost btn-sm" data-close="taskDlg">✕ Đóng</button>
+    </div>
+    <div class="dlg-body">
+      <div class="grid-form">
+        <div class="span-2">
+          <label class="lbl" for="fName">Tên nhiệm vụ được giao *</label>
+          <input id="fName" required placeholder="Nhập nội dung nhiệm vụ cụ thể...">
+        </div>
+        <div class="span-2">
+          <label class="lbl" for="fPreset">⚡ Chọn nhanh khung điểm chuẩn (Tự động điền Cấp ký & Điểm giao)</label>
+          <select id="fPreset"><option value="">-- Chọn nhóm nhiệm vụ theo quy định --</option></select>
+        </div>
+        <div>
+          <label class="lbl" for="fProduct">Sản phẩm giao</label>
+          <input id="fProduct" placeholder="Kế hoạch, công văn, báo cáo...">
+        </div>
+        <div>
+          <label class="lbl" for="fDeadline">Hạn hoàn thành</label>
+          <input id="fDeadline" type="date">
+        </div>
+        <div>
+          <label class="lbl" for="fLeader">Lãnh đạo chỉ đạo</label>
+          <input id="fLeader" placeholder="Tên đồng chí lãnh đạo...">
+        </div>
+        <div>
+          <label class="lbl" for="fLevel">Cấp trình / giao / ký</label>
+          <input id="fLevel">
+        </div>
+        <div>
+          <label class="lbl" for="fScore">Điểm giao *</label>
+          <input id="fScore" type="number" step="0.5" min="0" required>
+        </div>
+        <div>
+          <label class="lbl" for="fStatus">Trạng thái thực hiện</label>
+          <select id="fStatus">
+            <option value="COMPLETED">Hoàn thành</option>
+            <option value="PENDING">Chưa hoàn thành</option>
+            <option value="NOT_DUE">Chưa đến kỳ đánh giá</option>
+          </select>
+        </div>
+        <div class="span-2">
+          <label class="lbl" for="fActual">Sản phẩm thực tế (Số, ký hiệu, ngày tháng; mỗi sản phẩm 1 dòng)</label>
+          <textarea id="fActual" rows="3" placeholder="Ví dụ: Báo cáo số 125/BC-ANCTNB ngày 10/10/2026&#10;Tờ trình số 07/TTr-PA03 ngày 12/10/2026"></textarea>
+        </div>
+        <div>
+          <label class="lbl" for="fActualDate">Ngày hoàn thành thực tế</label>
+          <input id="fActualDate" type="date">
+        </div>
+        <div>
+          <label class="lbl" for="fQuality">Đánh giá Chất lượng & Số lần sửa</label>
+          <select id="fQuality"></select>
+        </div>
+        <div class="span-2">
+          <label class="lbl" for="fProgress">Chế độ tính điểm Tiến độ</label>
+          <select id="fProgress"></select>
+        </div>
+      </div>
+      <div class="preview" aria-live="polite">
+        <div><span class="muted">Điểm Số lượng (A)</span><strong id="pA">0</strong></div>
+        <div><span class="muted">Điểm Chất lượng (B)</span><strong id="pB">0</strong></div>
+        <div><span class="muted">Điểm Tiến độ (C) <span id="pNote"></span></span><strong id="pC">0</strong></div>
+      </div>
+    </div>
+    <div class="dlg-foot">
+      <button type="button" class="btn" data-close="taskDlg">Hủy bỏ</button>
+      <button type="submit" class="btn btn-primary">Lưu nhiệm vụ</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Initiative dialog -->
+<dialog id="initDlg" aria-labelledby="initTitle">
+  <form id="initForm">
+    <div class="dlg-head">
+      <h2 id="initTitle">Đột phá, sáng kiến (Mẫu A3)</h2>
+      <button type="button" class="btn btn-ghost btn-sm" data-close="initDlg">✕ Đóng</button>
+    </div>
+    <div class="dlg-body">
+      <div>
+        <label class="lbl" for="iContent">Tên / Nội dung đột phá, sáng kiến *</label>
+        <input id="iContent" required placeholder="Nhập tên sáng kiến, mô hình, giải pháp...">
+      </div>
+      <div class="grid-form">
+        <div><label class="lbl" for="iStart">Ngày bắt đầu triển khai</label><input id="iStart" type="date"></div>
+        <div><label class="lbl" for="iEnd">Ngày hoàn thành</label><input id="iEnd" type="date"></div>
+      </div>
+      <div>
+        <label class="lbl" for="iEffect">Hiệu quả trong thực tiễn (Ghi rõ số liệu kiểm chứng) *</label>
+        <textarea id="iEffect" rows="4" required placeholder="Mô tả rõ kết quả đạt được, số liệu chứng minh, hiệu quả tiết kiệm thời gian hoặc tác động bảo đảm ANTT..."></textarea>
+      </div>
+    </div>
+    <div class="dlg-foot">
+      <button type="button" class="btn" data-close="initDlg">Hủy bỏ</button>
+      <button type="submit" class="btn btn-primary">Lưu sáng kiến</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Confirm dialog -->
+<dialog id="confirmDlg" aria-labelledby="cfTitle">
+  <form id="cfForm">
+    <div class="dlg-body">
+      <h2 id="cfTitle"></h2>
+      <p id="cfText" class="muted" style="margin:0"></p>
+      <div id="cfInputWrap" hidden>
+        <label class="lbl" id="cfLabel" for="cfInput"></label>
+        <input id="cfInput">
+      </div>
+    </div>
+    <div class="dlg-foot">
+      <button type="button" class="btn" id="cfCancel">Hủy</button>
+      <button type="submit" class="btn" id="cfOk">Xác nhận</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Data dialog -->
+<dialog id="dataDlg" aria-labelledby="dataTitle">
+  <div class="dlg-head">
+    <h2 id="dataTitle">Sao lưu & Khôi phục dữ liệu</h2>
+    <button type="button" class="btn btn-ghost btn-sm" data-close="dataDlg">✕ Đóng</button>
+  </div>
+  <div class="dlg-body">
+    <div>
+      <label class="lbl" for="exportBox">Dữ liệu hiện tại (Định dạng JSON)</label>
+      <textarea id="exportBox" class="mono" readonly></textarea>
+      <div class="actions" style="margin-top:10px">
+        <button class="btn btn-primary" id="btnFullBackup" hidden>⬇️ Tải file sao lưu đầy đủ (.json)</button>
+        <button class="btn" id="btnCopyJson">Sao chép mã JSON</button>
+      </div>
+      <small>Khuyên dùng: Bấm <b>"Tải file sao lưu đầy đủ"</b> để lưu toàn bộ dữ liệu kèm tệp đính kèm về máy tính.</small>
+    </div>
+    <hr style="border:0; border-top:1px solid var(--line); margin:4px 0">
+    <div>
+      <label class="lbl" for="importBox">Khôi phục hoặc Gộp dữ liệu từ file sao lưu</label>
+      <textarea id="importBox" class="mono" placeholder="Dán nội dung file .json vào đây, hoặc bấm nút Chọn file bên dưới..."></textarea>
+      <div class="actions" style="margin-top:10px">
+        <label class="btn" style="cursor:pointer">📂 Chọn file .json<input id="importFile" type="file" accept=".json,application/json" hidden></label>
+        <button class="btn" id="btnMerge">Gộp thêm dữ liệu mới</button>
+        <button class="btn btn-danger" id="btnImport">Khôi phục (Ghi đè)</button>
+      </div>
+      <small><b>Khôi phục</b> sẽ thay thế toàn bộ dữ liệu hiện tại. <b>Gộp</b> chỉ thêm các nhiệm vụ, sáng kiến và lịch sử chưa có.</small>
+    </div>
+    <div style="padding-top:8px; border-top:1px solid var(--line)">
+      <button class="btn btn-ghost btn-sm" id="btnClearAll" style="color:var(--bad)">🗑️ Xóa sạch toàn bộ dữ liệu trên trình duyệt này</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- Theme dialog -->
+<dialog id="themeDlg" aria-labelledby="themeTitle">
+  <div class="dlg-head">
+    <h2 id="themeTitle">Tùy chỉnh giao diện & Hiển thị</h2>
+    <button type="button" class="btn btn-ghost btn-sm" data-close="themeDlg">✕ Đóng</button>
+  </div>
+  <div class="dlg-body">
+    <div>
+      <span class="lbl">Bảng màu chủ đạo</span>
+      <div class="swatches" id="swatches"></div>
+    </div>
+    <fieldset class="bgset">
+      <legend class="lbl">Ảnh bìa đầu trang (Banner)</legend>
+      <label><input type="radio" name="bgChoice" value="none"> Không dùng</label>
+      <label><input type="radio" name="bgChoice" value="poster"> Poster Công an tỉnh Hưng Yên</label>
+      <label><input type="radio" name="bgChoice" value="custom"> Ảnh tải từ máy tính</label>
+    </fieldset>
+    <div id="customBgWrap" hidden>
+      <label class="lbl" for="bgFile">Chọn ảnh PNG, JPG hoặc WEBP (dưới 1 MB)</label>
+      <input id="bgFile" type="file" accept="image/png,image/jpeg,image/webp">
+    </div>
+    <div id="uiGroups" class="ui-groups"></div>
+    <fieldset class="bgset">
+      <legend class="lbl">Ảnh nền toàn trang (Tải từ máy)</legend>
+      <label><input type="radio" name="pageBgChoice" value="none"> Không dùng</label>
+      <label><input type="radio" name="pageBgChoice" value="custom"> Dùng ảnh đã tải lên</label>
+      <div style="width:100%"><label class="lbl" for="pageBgFile">Chọn ảnh PNG, JPG hoặc WEBP (Tối đa 15 MB, tự động nén)</label>
+      <input id="pageBgFile" type="file" accept="image/png,image/jpeg,image/webp"></div>
+      <div style="width:100%"><label class="lbl" for="pageOvRange">Độ phủ mờ nền để dễ đọc chữ: <span id="pageOvVal"></span></label>
+      <input id="pageOvRange" type="range" min="0" max="95" step="5"></div>
+    </fieldset>
+  </div>
+  <div class="dlg-foot">
+    <button type="button" class="btn" id="uiReset">Khôi phục mặc định</button>
+    <button type="button" class="btn btn-primary" data-close="themeDlg">Hoàn tất</button>
+  </div>
+</dialog>
+
+<!-- Evidence dialog (A3) -->
+<dialog id="evDlg" aria-labelledby="evTitle">
+  <div class="dlg-head">
+    <h2 id="evTitle">Tệp minh chứng (Mẫu A3)</h2>
+    <button type="button" class="btn btn-ghost btn-sm" data-close="evDlg">✕ Đóng</button>
+  </div>
+  <div class="dlg-body">
+    <div id="evList" class="ev-list"></div>
+    <div id="evUploadWrap" hidden>
+      <label class="lbl" for="evFile">Đính kèm tệp mới (PNG, JPG, WEBP hoặc PDF, tối đa 20 MB/tệp)</label>
+      <div class="actions">
+        <input id="evFile" type="file" multiple accept="image/png,image/jpeg,image/webp,application/pdf" style="flex:1">
+        <button class="btn btn-primary" id="evUploadBtn">Tải lên</button>
+      </div>
+    </div>
+    <p id="evNoUpload" class="muted" hidden style="margin:0">Chỉ người có quyền chỉnh sửa trang mới tải tệp lên được. Các tệp đã lưu vẫn xem được.</p>
+  </div>
+  <div class="dlg-foot"><button type="button" class="btn" data-close="evDlg">Đóng</button></div>
+</dialog>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ---------- Constants ---------- */
+const KEY = 'kpi_a2a3_v3';
+const THEME_KEY = 'kpi_a2a3_theme';
+const STATUS = { COMPLETED: 'Hoàn thành', PENDING: 'Chưa hoàn thành', NOT_DUE: 'Chưa đến kỳ' };
+const STATUS_TONE = { COMPLETED: 't-ok', PENDING: 't-warn', NOT_DUE: 't-info' };
+
+const QUALITY = [
+  [1, 0, 'Đảm bảo chất lượng, sửa 0 lần (100%)'],
+  [1.5, 0, 'Đột phá KHCN, CĐS, phòng ngừa tội phạm (150%)'],
+  [1.2, 0, 'Vượt mức yêu cầu, thuộc khung hoặc chủ động (120%)'],
+  [1.05, 0, 'Vượt mức yêu cầu, ngoài khung (105%)'],
+  [0.75, 1, 'Phải chỉnh sửa 01 lần (75%)'],
+  [0.5, 2, 'Phải chỉnh sửa 02 - 03 lần (50%)'],
+  [0.25, 4, 'Phải chỉnh sửa 04 lần (25%)'],
+  [0, 5, 'Chỉnh sửa từ 05 lần trở lên hoặc chuyển đơn vị khác (0%)'],
+];
+const PROGRESS = [
+  ['AUTO', 'Tự động tính theo hạn và ngày hoàn thành'],
+  ['1.5', 'Vượt tiến độ, đột phá KHCN, CĐS (150%)'],
+  ['1.2', 'Vượt tiến độ, trong khung (120%)'],
+  ['1.05', 'Vượt tiến độ, ngoài khung (105%)'],
+  ['1', 'Gia hạn, bất khả kháng (giữ 100%)'],
+];
+const PRESETS = [
+  ['1. Nhiệm vụ trình cấp trên (có sản phẩm tham mưu)', 'Trình ĐUCA TW, Bộ CA, Tỉnh ủy, UBND tỉnh - Ban hành', 35],
+  ['1. Nhiệm vụ trình cấp trên (có sản phẩm tham mưu)', 'Trình ĐUCA TW, Bộ CA, Tỉnh ủy, UBND tỉnh - Cho ý kiến', 30],
+  ['1. Nhiệm vụ trình cấp trên (có sản phẩm tham mưu)', 'Trình cấp Cục, Công an tỉnh - Ban hành', 25],
+  ['1. Nhiệm vụ trình cấp trên (có sản phẩm tham mưu)', 'Trình cấp Cục, Công an tỉnh - Cho ý kiến', 20],
+  ['1. Nhiệm vụ trình cấp trên (có sản phẩm tham mưu)', 'Trình cấp Phòng, cấp ủy, CQ cấp xã - Ban hành', 15],
+  ['1. Nhiệm vụ trình cấp trên (có sản phẩm tham mưu)', 'Trình cấp Phòng, cấp ủy, CQ cấp xã - Cho ý kiến', 10],
+  ['1. Nhiệm vụ trình cấp trên (có sản phẩm tham mưu)', 'Nhiệm vụ tham mưu khác', 10],
+  ['2. Triển khai thực tiễn theo chỉ đạo', 'Tỉnh ủy, UBND tỉnh giao (đơn vị chủ trì)', 30],
+  ['2. Triển khai thực tiễn theo chỉ đạo', 'Cấp Cục, Giám đốc Công an tỉnh giao', 25],
+  ['2. Triển khai thực tiễn theo chỉ đạo', 'Cấp phòng; cấp ủy, CQ cấp xã giao', 15],
+  ['2. Triển khai thực tiễn theo chỉ đạo', 'Công an cấp xã, cấp Đội giao', 10],
+  ['2. Triển khai thực tiễn theo chỉ đạo', 'Nhiệm vụ triển khai thực tiễn khác', 5],
+  ['3. Chủ động báo cáo từ thực tiễn', 'Chủ động báo cáo - Lãnh đạo Tỉnh ủy, UBND tỉnh ký', 35],
+  ['3. Chủ động báo cáo từ thực tiễn', 'Chủ động báo cáo - Lãnh đạo Công an tỉnh ký', 30],
+  ['3. Chủ động báo cáo từ thực tiễn', 'Chủ động báo cáo - Lãnh đạo cấp Phòng ký', 20],
+  ['3. Chủ động báo cáo từ thực tiễn', 'Chủ động báo cáo - Lãnh đạo CA cấp xã, cấp Đội ký', 15],
+];
+
+/* ---------- A1: tiêu chí chung ---------- */
+const A1_TEAM = [
+  ['1', 'Kết quả công tác xây dựng, chỉnh đốn Đảng; củng cố, xây dựng tổ chức đảng và hệ thống chính trị; nâng cao chất lượng đội ngũ cán bộ, đảng viên theo nghị quyết, kế hoạch, chỉ tiêu được giao.', 5],
+  ['2', 'Năng lực lãnh đạo của cấp ủy; hiệu quả lãnh đạo, chỉ đạo của cấp ủy đối với đơn vị, các cấp ủy, tổ chức đảng cấp dưới trong CAND theo thẩm quyền, hiệu quả trong phối hợp công tác; xây dựng đoàn kết nội bộ.', 5],
+  ['3', 'Hiệu quả trong công tác thanh tra, kiểm tra, giám sát và kỷ luật đảng; thực hiện các quy định về kiểm soát quyền lực; không để xảy ra tham nhũng, lãng phí, tiêu cực, suy thoái về tư tưởng chính trị, đạo đức, lối sống, “tự diễn biến”, “tự chuyển hóa” trong nội bộ.', 5],
+  ['4', 'Kết quả thực hiện các nguyên tắc tổ chức và hoạt động của đảng, nhất là nguyên tắc tập trung dân chủ, tự phê bình và phê bình; việc chấp hành quy chế làm việc, nội quy, chế độ công tác; phân công nhiệm vụ, tổ chức thực hiện hiệu quả.', 5],
+  ['5', 'Kết quả lãnh đạo, chỉ đạo, kiểm tra, giám sát việc thực hiện nhiệm vụ chính trị; xây dựng bộ máy tinh gọn, tinh giản biên chế, hoạt động hiệu năng, hiệu lực, hiệu quả; thực hiện cải cách hành chính, chuyển đổi số, đẩy mạnh ứng dụng khoa học, công nghệ, phương pháp quản lý gắn với xây dựng văn hóa công vụ trong hoạt động quản lý, điều hành đơn vị.', 5],
+  ['6', 'Tinh thần tự phê bình và phê bình, tự soi, tự sửa của tập thể đơn vị; kết quả khắc phục những hạn chế, yếu kém, khuyết điểm đã được chỉ ra trong các kỳ kiểm điểm trước hoặc qua thanh tra, kiểm tra, giám sát.', 5],
+];
+const A1_LEADER = [
+  {
+    title: '1. Về phẩm chất chính trị, đạo đức, lối sống, thực hiện trách nhiệm nêu gương',
+    items: [
+      ['1.1', 'Tuyệt đối trung thành với Đảng, Tổ quốc và Nhân dân; kiên định chủ nghĩa Mác - Lênin, tư tưởng Hồ Chí Minh, mục tiêu độc lập dân tộc và chủ nghĩa xã hội. Có lập trường, quan điểm, bản lĩnh chính trị vững vàng; kiên quyết bảo vệ nền tảng tư tưởng, Cương lĩnh chính trị, đường lối của Đảng, Hiến pháp, pháp luật của Nhà nước; đấu tranh phản bác các quan điểm sai trái, thù địch, các biểu hiện suy thoái, “tự diễn biến”, “tự chuyển hoá”.', 2],
+      ['1.2', 'Có tinh thần yêu nước sâu sắc, tận tụy phục vụ Nhân dân, sâu sát cơ sở, luôn hành động vì lợi ích của Nhân dân. Đặt lợi ích của Đảng, quốc gia - dân tộc, Nhân dân, tập thể lên trên lợi ích cá nhân, sẵn sàng hy sinh vì sự nghiệp cách mạng của Đảng, vì độc lập, tự do của Tổ quốc, vì hạnh phúc của Nhân dân.', 2],
+      ['1.3', 'Chấp hành nghiêm chủ trương, đường lối, nghị quyết, chỉ thị, quy định, nguyên tắc tổ chức, kỷ luật của Đảng, nhất là nguyên tắc tập trung dân chủ, tự phê bình và phê bình; chấp hành nghiêm pháp luật của Nhà nước và quy định của đơn vị. Tuyệt đối chấp hành sự phân công của tổ chức, yên tâm công tác và hoàn thành tốt mọi nhiệm vụ được giao.', 2],
+      ['1.4', 'Có tinh thần tự giác, trách nhiệm cao trong nghiên cứu, học tập chủ nghĩa Mác - Lênin, tư tưởng Hồ Chí Minh, các nghị quyết, chỉ thị của Đảng và các chương trình bồi dưỡng, cập nhật kiến thức mới nhằm nâng cao trình độ về mọi mặt, đáp ứng yêu cầu, nhiệm vụ.', 2],
+      ['1.5', 'Có phẩm chất đạo đức, lối sống trong sáng, trung thực, khiêm tốn, chân thành, giản dị; cần, kiệm, liêm, chính, chí công vô tư; chấp hành nghiêm quy định về chuẩn mực đạo đức cách mạng của cán bộ, đảng viên trong giai đoạn mới, trách nhiệm nêu gương; không vi phạm Quy định về những điều đảng viên không được làm. Không né tránh công việc, chạy theo thành tích; không vi phạm đạo đức, lối sống đến mức bị xử lý kỷ luật.', 2],
+      ['1.6', 'Không tham vọng quyền lực; không chạy chức, chạy quyền; không tham nhũng, lãng phí, cơ hội, vụ lợi, cục bộ, lợi ích nhóm; không để gia đình, người thân và người khác lợi dụng chức vụ, vị trí công tác để trục lợi. Không có biểu hiện suy thoái về tư tưởng chính trị, đạo đức, lối sống, những biểu hiện “tự diễn biến”, “tự chuyển hoá” trong nội bộ. Kiên quyết đấu tranh chống quan liêu, cửa quyền, tham nhũng, xa hoa, lãng phí, tiêu cực, chủ nghĩa cá nhân, lối sống cơ hội, thực dụng, bè phái, lợi ích nhóm, nói không đi đôi với làm.', 2],
+      ['1.7', 'Có uy tín cao, tiêu biểu về phẩm chất đạo đức và phong cách công tác; là trung tâm đoàn kết, thương yêu đồng chí, đồng nghiệp.', 2],
+      ['1.8', 'Có tinh thần chủ động, đổi mới sáng tạo; phấn đấu vì mục tiêu phát triển của đơn vị, đóng góp vào mục tiêu chung của đất nước.', 2],
+      ['1.9', 'Thực hiện việc kê khai và công khai tài sản, thu nhập theo quy định. Báo cáo đầy đủ, trung thực, cung cấp thông tin chính xác, khách quan về những nội dung liên quan đến việc thực hiện chức trách, nhiệm vụ được giao và hoạt động của đơn vị với cấp trên khi được yêu cầu.', 2],
+    ],
+  },
+  {
+    title: '2. Tư duy đổi mới, chiến lược, khát vọng cống hiến, dám nghĩ, dám làm',
+    items: [
+      ['2.1', 'Có tư duy đổi mới, tầm nhìn chiến lược, khả năng lãnh đạo, chỉ đạo thích ứng với sự phát triển của thời đại và xu thế toàn cầu hoá; phương pháp làm việc khoa học, nhạy bén chính trị; có năng lực cụ thể hoá trong lãnh đạo, chỉ đạo đơn vị thực hiện và hoàn thành tốt chức năng, nhiệm vụ được giao.', 1],
+      ['2.2', 'Luôn bám sát thực tiễn, có nhiều cách làm hay, sáng tạo, đạt hiệu quả cao trong lãnh đạo, chỉ đạo, tổ chức thực hiện nhiệm vụ; xây dựng cấp ủy, tổ chức đảng trong sạch, vững mạnh, đơn vị vững mạnh toàn diện.', 1],
+      ['2.3', 'Nói đi đôi với làm, dám nghĩ, dám làm, dám chịu trách nhiệm, dám đột phá vì lợi ích chung. Có khả năng phân tích, dự báo tình hình, phát hiện những khó khăn, bất cập, thời cơ, thuận lợi trong thực tiễn; đề xuất hoặc quyết định những giải pháp phù hợp, kịp thời, hiệu quả.', 1],
+      ['2.4', 'Có khát vọng phấn đấu, cống hiến; có khả năng quy tụ và phát huy được sức mạnh của tập thể, cá nhân trong đơn vị và các đơn vị có liên quan.', 1],
+    ],
+  },
+  {
+    title: '3. Tự phê bình và phê bình, tự soi, tự sửa, khắc phục hạn chế, khuyết điểm',
+    items: [
+      ['3.1', 'Chủ động, nghiêm túc thực hiện tự phê bình và phê bình, có tinh thần cầu thị và tiếp thu phản biện, góp ý.', 2],
+      ['3.2', 'Có kế hoạch rõ ràng và quyết liệt trong khắc phục hạn chế, khuyết điểm đã được chỉ ra.', 2],
+      ['3.3', 'Kết quả khắc phục hoàn thành từ > 80% nội dung, có tiến bộ rõ, được tổ chức đánh giá tốt; không để tái diễn tồn tại.', 2],
+      ['3.4', 'Tự soi, tự sửa trên tinh thần trách nhiệm chính trị cao, không né tránh, không đổ lỗi.', 2],
+    ],
+  },
+];
+const A1_LEADER_ITEMS = A1_LEADER.flatMap(s => s.items);
+
+function normA1(a) {
+  a = a || {};
+  const clean = (src, items) => {
+    const out = {};
+    for (const [k] of items) if (src && (src[k] === 'ok' || src[k] === 'no')) out[k] = src[k];
+    return out;
+  };
+  const notes = {};
+  if (a.notes && typeof a.notes === 'object') {
+    for (const k of Object.keys(a.notes)) notes[k] = String(a.notes[k] || '');
+  }
+  return { team: clean(a.team, A1_TEAM), leader: clean(a.leader, A1_LEADER_ITEMS), notes };
+}
+function a1Points(a1, part) {
+  const items = part === 'team' ? A1_TEAM : A1_LEADER_ITEMS;
+  return items.reduce((sum, [k, , p]) => sum + (a1[part][k] === 'ok' ? p : 0), 0);
+}
+
+/* ---------- Helpers ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const round2 = n => Math.round(n * 100) / 100;
+const num = (v, d) => { const n = parseFloat(v); return Number.isFinite(n) ? n : d; };
+const uid = () => 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const pad = n => String(n).padStart(2, '0');
+const todayISO = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; };
+const fmtDate = s => { if (!s) return ''; const p = s.split('-'); return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : s; };
+const setText = (id, v) => { const el = $(id); if (el) el.textContent = v; };
+function dayDiff(a, b) {
+  if (!a || !b) return 0;
+  const A = a.split('-').map(Number), B = b.split('-').map(Number);
+  return Math.round((Date.UTC(B[0], B[1] - 1, B[2]) - Date.UTC(A[0], A[1] - 1, A[2])) / 864e5);
+}
+function debounce(fn, ms) { let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); }; }
+function nextPeriod(p) {
+  const m = /(\d{1,2})\/(\d{4})/.exec(p || '');
+  if (!m) return '';
+  let mo = +m[1] + 1, y = +m[2];
+  if (mo > 12) { mo = 1; y++; }
+  return `Tháng ${mo}/${y}`;
+}
+
+/* ---------- Data model ---------- */
+const DEFAULT_SETTINGS = { unitName: 'Phòng An ninh chính trị nội bộ', period: 'Tháng 10/2026', scoreD: 1, bonus: 0 };
+
+function normTask(t) {
+  const q = parseFloat(t.qualityFactor);
+  return {
+    id: String(t.id || uid()),
+    name: String(t.name || ''),
+    assignedProduct: String(t.assignedProduct || ''),
+    deadline: String(t.deadline || ''),
+    assignedLeader: String(t.assignedLeader || ''),
+    assignedLevel: String(t.assignedLevel || ''),
+    assignedScore: num(t.assignedScore, 0),
+    actualProduct: String(t.actualProduct || ''),
+    status: STATUS[t.status] ? t.status : 'PENDING',
+    qualityFactor: Number.isFinite(q) ? q : 1,
+    reviseCount: Math.max(0, parseInt(t.reviseCount, 10) || 0),
+    actualDate: String(t.actualDate || ''),
+    progressMode: String(t.progressMode || 'AUTO'),
+  };
+}
+function normInit(i) {
+  return {
+    id: String(i.id || uid()),
+    content: String(i.content || ''),
+    startDate: String(i.startDate || ''),
+    endDate: String(i.endDate || ''),
+    effect: String(i.effect || ''),
+    files: normFiles(i.files),
+  };
+}
+function sanitize(o) {
+  o = o || {};
+  const s = Object.assign({}, DEFAULT_SETTINGS, o.settings || {});
+  return {
+    settings: {
+      unitName: String(s.unitName || ''),
+      period: String(s.period || ''),
+      scoreD: num(s.scoreD, 1),
+      bonus: num(s.bonus, 0),
+    },
+    tasks: (Array.isArray(o.tasks) ? o.tasks : []).map(normTask),
+    initiatives: (Array.isArray(o.initiatives) ? o.initiatives : []).map(normInit),
+    a1: normA1(o.a1),
+    history: (Array.isArray(o.history) ? o.history : []).map(h => ({
+      id: String(h.id || uid()),
+      closedAt: String(h.closedAt || ''),
+      settings: sanitize({ settings: h.settings }).settings,
+      tasks: (Array.isArray(h.tasks) ? h.tasks : []).map(normTask),
+      initiatives: (Array.isArray(h.initiatives) ? h.initiatives : []).map(normInit),
+      a1: normA1(h.a1),
+    })),
+  };
+}
+
+let storageOk = true;
+let state = load();
+let editingTaskId = null;
+let cfHandler = null;
+let saveTimer = null;
+
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) return sanitize(JSON.parse(raw));
+  } catch (e) {
+    storageOk = false;
+  }
+  return sanitize({});
+}
+function saveNow() {
+  clearTimeout(saveTimer);
+  try {
+    localStorage.setItem(KEY, JSON.stringify(state));
+    storageOk = true;
+  } catch (e) {
+    storageOk = false;
+  }
+  $('storageWarn').hidden = storageOk;
+}
+function persist() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveNow, 200);
+}
+function commit() {
+  persist();
+  renderAll();
+}
+
+/* ---------- Calculations ---------- */
+function calcTask(t) {
+  const assigned = t.assignedScore;
+  if (t.status !== 'COMPLETED') return { a: 0, b: 0, c: 0, delay: 0 };
+  const delay = dayDiff(t.deadline, t.actualDate);
+  let p;
+  if (t.progressMode !== 'AUTO') p = parseFloat(t.progressMode);
+  else p = delay <= 0 ? 1 : delay <= 5 ? 0.75 : delay <= 10 ? 0.5 : delay <= 20 ? 0.25 : 0;
+  return { a: assigned, b: round2(assigned * t.qualityFactor), c: round2(assigned * p), delay: Math.max(0, delay) };
+}
+function summarize(src = state) {
+  const active = src.tasks.filter(t => t.status !== 'NOT_DUE');
+  let sumAssigned = 0, sumA = 0, sumB = 0, sumC = 0;
+  for (const t of active) {
+    const c = calcTask(t);
+    sumAssigned += t.assignedScore; sumA += c.a; sumB += c.b; sumC += c.c;
+  }
+  const ratio = x => (sumAssigned > 0 ? x / sumAssigned : 0);
+  const rA = ratio(sumA), rB = ratio(sumB), rC = ratio(sumC);
+  const { scoreD, bonus } = src.settings;
+  const eG = a1Points(src.a1, 'team');
+  const eL = a1Points(src.a1, 'leader');
+  const kG = ((rA + rB + rC) / 3) * 55;
+  const kL = ((rA + rB + rC + scoreD) / 4) * 55;
+  return {
+    sumAssigned, rA, rB, rC, kG, kL, eG, eL,
+    totalG: eG + kG + bonus,
+    totalL: eL + kL + bonus,
+    done: active.filter(t => t.status === 'COMPLETED').length,
+    active: active.length,
+  };
+}
+function rank(total, E) {
+  if (total >= 90) return E >= 30
+    ? { label: 'Hoàn thành xuất sắc nhiệm vụ', tone: 't-ok', note: 'Đạt từ 90 điểm và điểm E đạt tối đa 30' }
+    : { label: 'Hoàn thành tốt nhiệm vụ', tone: 't-info', note: 'Đạt từ 90 điểm nhưng điểm E dưới 30' };
+  if (total >= 70) return { label: 'Hoàn thành tốt nhiệm vụ', tone: 't-info', note: 'Đạt từ 70 đến dưới 90 điểm' };
+  if (total >= 50) return { label: 'Hoàn thành nhiệm vụ', tone: 't-warn', note: 'Đạt từ 50 đến dưới 70 điểm' };
+  return { label: 'Không hoàn thành nhiệm vụ', tone: 't-bad', note: 'Tổng điểm dưới 50 điểm' };
+}
+function setPill(id, r) {
+  const el = $(id);
+  el.textContent = r.label;
+  el.className = 'pill ' + r.tone;
+}
+function setBar(id, ratio) {
+  const el = $(id);
+  if (!el) return;
+  const pct = Math.max(0, Math.min(100, ratio * 100));
+  el.style.width = pct + '%';
+  el.style.backgroundColor = ratio >= 0.9 ? 'var(--ok)' : ratio >= 0.7 ? 'var(--info)' : ratio >= 0.5 ? 'var(--warn)' : 'var(--bad)';
+}
+
+/* ---------- Rendering ---------- */
+function renderAll() {
+  renderHeader();
+  renderSettings();
+  renderSummary();
+  renderTasks();
+  renderInit();
+  renderA1();
+  renderHistory();
+}
+function renderA1() {
+  const a1 = state.a1;
+  const row = ([k, text, p], part) => {
+    const v = a1[part][k];
+    const nm = `a1-${part}-${k}`;
+    const note = a1.notes[`${part}:${k}`] || '';
+    return `<tr>
+      <td class="c nowrap"><b>${k}</b></td>
+      <td>${esc(text)}</td>
+      <td class="c num">${p}</td>
+      <td class="c">
+        <div class="a1-toggle" role="radiogroup" aria-label="Tiêu chí ${k}">
+          <label class="opt-ok"><input type="radio" name="${nm}" value="ok" data-a1="${part}" data-key="${k}" ${v === 'ok' ? 'checked' : ''}>✓ Đạt</label>
+          <label class="opt-no"><input type="radio" name="${nm}" value="no" data-a1="${part}" data-key="${k}" ${v === 'no' ? 'checked' : ''}>✕ Không</label>
+        </div>
+      </td>
+      <td class="c num"><b>${v === 'ok' ? p : 0}</b></td>
+      <td><input type="text" data-note="${part}" data-key="${k}" value="${esc(note)}" placeholder="Nhập minh chứng..." aria-label="Ghi chú tiêu chí ${k}"></td>
+    </tr>`;
+  };
+  $('a1Team').innerHTML = A1_TEAM.map(it => row(it, 'team')).join('');
+  $('a1Leader').innerHTML = A1_LEADER.map(sec => {
+    const got = sec.items.reduce((s, [k, , p]) => s + (a1.leader[k] === 'ok' ? p : 0), 0);
+    const max = sec.items.reduce((s, [, , p]) => s + p, 0);
+    return `<tr class="grp"><td></td><td><strong>${esc(sec.title)}</strong></td><td class="c num"><strong>${max}</strong></td><td></td><td class="c num"><strong>${got}</strong></td><td></td></tr>`
+      + sec.items.map(it => row(it, 'leader')).join('');
+  }).join('');
+  const ptT = a1Points(a1, 'team'), ptL = a1Points(a1, 'leader');
+  setText('a1TeamTotal', `${ptT} / 30 điểm`);
+  setText('a1LeaderTotal', `${ptL} / 30 điểm`);
+  setText('badgeA1', `${ptT + ptL}/60`);
+}
+function renderHeader() {
+  setText('unitLabel', state.settings.unitName || 'Chưa đặt tên đơn vị');
+  setText('periodLabel', state.settings.period || 'Chưa đặt kỳ đánh giá');
+}
+function renderSettings() {
+  const s = state.settings;
+  const pairs = [['sUnit', s.unitName], ['sPeriod', s.period], ['sD', s.scoreD], ['sBonus', s.bonus]];
+  for (const [id, v] of pairs) {
+    const el = $(id);
+    if (document.activeElement !== el) el.value = v;
+  }
+}
+function renderSummary() {
+  const S = summarize();
+  setText('sRA', S.rA.toFixed(3));
+  setText('sRB', S.rB.toFixed(3));
+  setText('sRC', S.rC.toFixed(3));
+  setBar('barA', S.rA);
+  setBar('barB', S.rB);
+  setBar('barC', S.rC);
+  setBar('barDone', S.active > 0 ? S.done / S.active : 0);
+
+  setText('sKG', S.kG.toFixed(2));
+  setText('sTG', S.totalG.toFixed(2));
+  setText('sKL', S.kL.toFixed(2));
+  setText('sTL', S.totalL.toFixed(2));
+  setText('sDone', `${S.done}/${S.active}`);
+  setText('sSum', S.sumAssigned.toFixed(1));
+  setText('sEG', S.eG);
+  setText('sEL', S.eL);
+  setPill('sRankG', rank(S.totalG, S.eG));
+  setPill('sRankL', rank(S.totalL, S.eL));
+  setText('sNoteG', rank(S.totalG, S.eG).note);
+  setText('sNoteL', rank(S.totalL, S.eL).note);
+
+  const allActive = state.tasks.filter(t => t.status !== 'NOT_DUE');
+  let a = 0, b = 0, c = 0;
+  for (const t of allActive) { const r = calcTask(t); a += r.a; b += r.b; c += r.c; }
+  setText('tAssigned', S.sumAssigned.toFixed(1));
+  setText('tA', a.toFixed(2));
+  setText('tB', b.toFixed(2));
+  setText('tC', c.toFixed(2));
+  setText('tRA', S.rA.toFixed(3));
+  setText('tRB', S.rB.toFixed(3));
+  setText('tRC', S.rC.toFixed(3));
+
+  setText('badgeA2', state.tasks.length);
+  setText('badgeA3', state.initiatives.length);
+  setText('badgeHist', state.history.length);
+}
+function renderTasks() {
+  const body = $('taskBody');
+  const q = $('search').value.trim().toLowerCase();
+  const st = $('statusFilter').value;
+  if (!state.tasks.length) {
+    body.innerHTML = `<tr><td colspan="16" class="empty">Chưa có nhiệm vụ nào trong kỳ này. Bấm <b>"+ Thêm nhiệm vụ"</b> ở góc trên để bắt đầu.</td></tr>`;
+    return;
+  }
+  const rows = state.tasks
+    .map((t, i) => ({ t, i }))
+    .filter(({ t }) => (st === 'ALL' || t.status === st) &&
+      (!q || [t.name, t.assignedLeader, t.actualProduct, t.assignedProduct].some(x => x.toLowerCase().includes(q))));
+  if (!rows.length) {
+    body.innerHTML = `<tr><td colspan="16" class="empty">Không tìm thấy nhiệm vụ nào khớp với bộ lọc hiện tại.</td></tr>`;
+    return;
+  }
+  body.innerHTML = rows.map(({ t, i }) => {
+    const c = calcTask(t);
+    return `<tr class="${t.status === 'NOT_DUE' ? 'dim' : ''}">
+      <td class="c num"><b>${i + 1}</b></td>
+      <td><strong>${esc(t.name)}</strong></td>
+      <td>${esc(t.assignedProduct)}</td>
+      <td class="c nowrap">${fmtDate(t.deadline)}</td>
+      <td>${esc(t.assignedLeader)}</td>
+      <td>${esc(t.assignedLevel)}</td>
+      <td class="c num"><b>${t.assignedScore}</b></td>
+      <td class="c">${Math.round(t.qualityFactor * 100)}%</td>
+      <td>${esc(t.actualProduct).replace(/\n/g, '<br>')}</td>
+      <td class="c"><span class="pill ${STATUS_TONE[t.status]}">${STATUS[t.status]}</span></td>
+      <td class="c num"><b>${c.a}</b></td>
+      <td class="c">${Math.round(t.qualityFactor * 100)}%<br><small>Sửa ${t.reviseCount} lần</small></td>
+      <td class="c num"><b>${c.b}</b></td>
+      <td class="c nowrap">${fmtDate(t.actualDate)}${c.delay > 0 ? `<br><small class="bad-text">Trễ ${c.delay} ngày</small>` : ''}</td>
+      <td class="c num"><b>${c.c}</b></td>
+      <td class="c nowrap">
+        <button class="btn btn-ghost btn-sm" data-act="edit" data-id="${esc(t.id)}">Sửa</button>
+        <button class="btn btn-ghost btn-sm" data-act="del" data-id="${esc(t.id)}" style="color:var(--bad)">Xóa</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+function renderInit() {
+  const body = $('initBody');
+  if (!state.initiatives.length) {
+    body.innerHTML = `<tr><td colspan="6" class="empty">Chưa có đột phá, sáng kiến nào được ghi nhận trong kỳ này.</td></tr>`;
+    return;
+  }
+  body.innerHTML = state.initiatives.map((x, i) => `<tr>
+    <td class="c num"><b>${i + 1}</b></td>
+    <td><strong>${esc(x.content)}</strong></td>
+    <td class="c nowrap">${fmtDate(x.startDate)}</td>
+    <td class="c nowrap">${fmtDate(x.endDate)}</td>
+    <td>${esc(x.effect).replace(/\n/g, '<br>')}</td>
+    <td class="c nowrap">
+      <button class="btn btn-sm" data-act="ev" data-id="${esc(x.id)}">📎 Minh chứng (${x.files.length})</button>
+      <button class="btn btn-ghost btn-sm" data-act="edit" data-id="${esc(x.id)}">Sửa</button>
+      <button class="btn btn-ghost btn-sm" data-act="del" data-id="${esc(x.id)}" style="color:var(--bad)">Xóa</button>
+    </td>
+  </tr>`).join('');
+}
+function renderHistory() {
+  const body = $('histBody');
+  if (!state.history.length) {
+    body.innerHTML = `<tr><td colspan="12" class="empty">Chưa có kỳ đánh giá nào được chốt. Khi kết thúc một kỳ, hãy bấm nút <b>"Chốt kỳ"</b>.</td></tr>`;
+    return;
+  }
+  body.innerHTML = state.history.map(h => {
+    const S = summarize(h);
+    const rG = rank(S.totalG, S.eG), rL = rank(S.totalL, S.eL);
+    return `<tr>
+      <td class="nowrap"><strong>${esc(h.settings.period || '(Không tên)')}</strong><br><small>Chốt ngày ${fmtDate(h.closedAt)}</small></td>
+      <td>${esc(h.settings.unitName)}</td>
+      <td class="c num">${h.tasks.length}</td>
+      <td class="c num">${S.sumAssigned.toFixed(1)}</td>
+      <td class="c num">${S.rA.toFixed(3)}</td>
+      <td class="c num">${S.rB.toFixed(3)}</td>
+      <td class="c num">${S.rC.toFixed(3)}</td>
+      <td class="c num"><b>${S.totalG.toFixed(2)}</b></td>
+      <td class="c"><span class="pill ${rG.tone}">${rG.label}</span></td>
+      <td class="c num"><b>${S.totalL.toFixed(2)}</b></td>
+      <td class="c"><span class="pill ${rL.tone}">${rL.label}</span></td>
+      <td class="c nowrap">
+        <button class="btn btn-sm" data-act="copy" data-id="${esc(h.id)}">Chép Excel</button>
+        <button class="btn btn-ghost btn-sm" data-act="del" data-id="${esc(h.id)}" style="color:var(--bad)">Xóa</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+/* ---------- Dialogs ---------- */
+function openDialog(id) { $(id).showModal(); }
+function closeDialog(id) { const d = $(id); if (d.open) d.close(); }
+
+function ask({ title, text, ok = 'Xác nhận', danger = false, input = null, onOk }) {
+  setText('cfTitle', title);
+  setText('cfText', text || '');
+  $('cfInputWrap').hidden = !input;
+  const inp = $('cfInput');
+  if (input) {
+    setText('cfLabel', input.label);
+    inp.value = input.value || '';
+    inp.required = true;
+  } else {
+    inp.required = false;
+  }
+  const okBtn = $('cfOk');
+  okBtn.textContent = ok;
+  okBtn.className = 'btn ' + (danger ? 'btn-danger' : 'btn-primary');
+  cfHandler = onOk;
+  openDialog('confirmDlg');
+  if (input) inp.focus();
+}
+
+function openTask(id) {
+  const t = id ? state.tasks.find(x => x.id === id) : null;
+  editingTaskId = t ? t.id : null;
+  setText('taskTitle', t ? 'Chỉnh sửa nhiệm vụ (A2)' : 'Thêm nhiệm vụ mới (A2)');
+  const today = todayISO();
+  $('fName').value = t ? t.name : '';
+  $('fProduct').value = t ? t.assignedProduct : '';
+  $('fDeadline').value = t ? t.deadline : today;
+  $('fLeader').value = t ? t.assignedLeader : '';
+  $('fLevel').value = t ? t.assignedLevel : '';
+  $('fScore').value = t ? t.assignedScore : 15;
+  $('fActual').value = t ? t.actualProduct : '';
+  $('fStatus').value = t ? t.status : 'COMPLETED';
+  $('fActualDate').value = t ? t.actualDate : today;
+  $('fQuality').value = t ? `${t.qualityFactor}|${t.reviseCount}` : '1|0';
+  $('fProgress').value = t ? t.progressMode : 'AUTO';
+  $('fPreset').value = '';
+  previewTask();
+  openDialog('taskDlg');
+  $('fName').focus();
+}
+function taskFromForm(id) {
+  const [f, r] = $('fQuality').value.split('|');
+  return {
+    id,
+    name: $('fName').value.trim(),
+    assignedProduct: $('fProduct').value.trim(),
+    deadline: $('fDeadline').value,
+    assignedLeader: $('fLeader').value.trim(),
+    assignedLevel: $('fLevel').value.trim(),
+    assignedScore: num($('fScore').value, 0),
+    actualProduct: $('fActual').value.trim(),
+    status: $('fStatus').value,
+    qualityFactor: parseFloat(f),
+    reviseCount: parseInt(r, 10) || 0,
+    actualDate: $('fActualDate').value,
+    progressMode: $('fProgress').value,
+  };
+}
+function previewTask() {
+  const t = taskFromForm(null);
+  const c = calcTask(t);
+  setText('pA', c.a);
+  setText('pB', c.b);
+  setText('pC', c.c);
+  let note = '';
+  if (t.status !== 'COMPLETED') note = '(chưa tính)';
+  else note = c.delay > 0 ? `(trễ ${c.delay} ngày)` : '(đúng hạn)';
+  setText('pNote', note);
+}
+let editingInitId = null;
+function openInit(id) {
+  $('initForm').reset();
+  const x = id ? state.initiatives.find(v => v.id === id) : null;
+  editingInitId = x ? x.id : null;
+  $('initTitle').textContent = x ? 'Sửa đột phá, sáng kiến (A3)' : 'Thêm đột phá, sáng kiến (A3)';
+  $('iContent').value = x ? x.content : '';
+  $('iStart').value = x ? x.startDate : todayISO();
+  $('iEnd').value = x ? x.endDate : '';
+  $('iEffect').value = x ? x.effect : '';
+  openDialog('initDlg');
+  $('iContent').focus();
+}
+
+/* ---------- Clipboard, download, toast ---------- */
+let toastTimer;
+function showToast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('✓ Đã sao chép! Hãy mở Excel và nhấn Ctrl+V để dán.');
+  } catch (e) {
+    openData(text);
+    showToast('Nội dung đã được bôi đen sẵn, hãy nhấn Ctrl+C để sao chép.');
+  }
+}
+function buildTSV(src) {
+  const S = summarize(src);
+  const rows = [];
+  const cell = v => String(v ?? '').replace(/[\t\r\n]+/g, ' ');
+  rows.push([`MẪU A2 - ${src.settings.unitName}`, `Kỳ: ${src.settings.period}`]);
+  rows.push(['STT', 'Nhiệm vụ', 'Sản phẩm giao', 'Hạn hoàn thành', 'Lãnh đạo chỉ đạo', 'Cấp trình / giao / ký', 'Điểm giao',
+    'Sản phẩm thực tế', 'Trạng thái', 'Điểm SL (A)', 'Tỷ lệ CL', 'Số lần sửa', 'Điểm CL (B)', 'Ngày hoàn thành', 'Điểm TĐ (C)']);
+  src.tasks.forEach((t, i) => {
+    const c = calcTask(t);
+    rows.push([i + 1, t.name, t.assignedProduct, fmtDate(t.deadline), t.assignedLeader, t.assignedLevel, t.assignedScore,
+      t.actualProduct, STATUS[t.status], c.a, Math.round(t.qualityFactor * 100) + '%', t.reviseCount, c.b, fmtDate(t.actualDate), c.c]);
+  });
+  rows.push([]);
+  rows.push(['Hệ số A', S.rA.toFixed(3), 'Hệ số B', S.rB.toFixed(3), 'Hệ số C', S.rC.toFixed(3)]);
+  rows.push(['K tập thể', S.kG.toFixed(2), 'E tập thể', S.eG, 'Tổng tập thể', S.totalG.toFixed(2), rank(S.totalG, S.eG).label]);
+  rows.push(['K cá nhân', S.kL.toFixed(2), 'E cá nhân', S.eL, 'Tổng cá nhân', S.totalL.toFixed(2), rank(S.totalL, S.eL).label]);
+  rows.push([]);
+  rows.push(['MẪU A1 - TIÊU CHÍ CHUNG']);
+  rows.push(['TT', 'Tiêu chí', 'Điểm tối đa', 'Đánh giá', 'Điểm đạt', 'Ghi chú']);
+  const verdict = v => (v === 'ok' ? 'Đảm bảo' : v === 'no' ? 'Không đảm bảo' : '');
+  A1_TEAM.forEach(([k, t, p]) => {
+    const v = src.a1.team[k];
+    rows.push([k, t, p, verdict(v), v === 'ok' ? p : 0, src.a1.notes[`team:${k}`] || '']);
+  });
+  rows.push(['', 'Tổng E tập thể', 30, '', a1Points(src.a1, 'team'), '']);
+  A1_LEADER_ITEMS.forEach(([k, t, p]) => {
+    const v = src.a1.leader[k];
+    rows.push([k, t, p, verdict(v), v === 'ok' ? p : 0, src.a1.notes[`leader:${k}`] || '']);
+  });
+  rows.push(['', 'Tổng E cá nhân', 30, '', a1Points(src.a1, 'leader'), '']);
+  rows.push([]);
+  rows.push(['MẪU A3 - ĐỘT PHÁ, SÁNG KIẾN']);
+  rows.push(['STT', 'Nội dung', 'Bắt đầu', 'Hoàn thành', 'Hiệu quả']);
+  (src.initiatives || []).forEach((x, i) => rows.push([i + 1, x.content, fmtDate(x.startDate), fmtDate(x.endDate), x.effect]));
+  return rows.map(r => r.map(cell).join('\t')).join('\n');
+}
+function openData(text) {
+  $('exportBox').value = text;
+  $('importBox').value = '';
+  openDialog('dataDlg');
+  $('exportBox').select();
+}
+
+/* ---------- Period close ---------- */
+function closePeriod(newName) {
+  state.history.unshift({
+    id: uid(),
+    closedAt: todayISO(),
+    settings: { ...state.settings },
+    tasks: state.tasks,
+    initiatives: state.initiatives,
+    a1: state.a1,
+  });
+  state.tasks = state.tasks.filter(t => t.status !== 'COMPLETED').map(t => ({ ...t, actualDate: '' }));
+  state.initiatives = [];
+  state.a1 = normA1({});
+  state.settings.period = newName || '';
+  saveNow();
+  renderAll();
+  showToast('✓ Đã chốt kỳ đánh giá và chuyển sang kỳ mới.');
+}
+
+/* ---------- A3 evidence files ---------- */
+const EVIDENCE_TYPES = ['image/png', 'image/jpeg', 'image/webp', 'application/pdf'];
+const EVIDENCE_MAX = 20 * 1024 * 1024;
+const EV_ERR = {
+  too_large: 'Tệp vượt quá 20 MB.',
+  unsupported_type: 'Loại tệp không được hỗ trợ. Chỉ nhận PNG, JPG, WEBP hoặc PDF.',
+  quota_or_state: 'Đã hết dung lượng lưu tệp chứng minh của trang này.',
+  rate_limited: 'Tải lên quá nhanh. Vui lòng thử lại sau ít phút.',
+  not_uploader: 'Chỉ người đã tải tệp này lên mới được xóa.',
+  store_unavailable: 'Kho lưu trữ tạm thời gặp lỗi. Vui lòng thử lại.',
+  not_granted: 'Trang này không cấp quyền tải tệp cho bạn.',
+  capability_disabled: 'Không dùng được tính năng tải tệp trong khung xem này.',
+};
+const evErr = e => EV_ERR[e && e.code] || 'Không thực hiện được. Vui lòng thử lại.';
+const fmtSize = n => (n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB');
+let evInitId = null;
+let assetsApi = null;
+
+(async () => {
+  try { assetsApi = (await (window.claude && window.claude.use('assets'))) || null; }
+  catch (e) { assetsApi = null; }
+  renderInit();
+})();
+
+const STANDALONE = !window.claude;
+const LOCAL_FILE_MAX = 20 * 1024 * 1024;
+let idbPromise = null;
+function localDb() {
+  if (!idbPromise) idbPromise = new Promise((res, rej) => {
+    const req = indexedDB.open('kpi_a2a3_files', 1);
+    req.onupgradeneeded = () => req.result.createObjectStore('files');
+    req.onsuccess = () => res(req.result);
+    req.onerror = () => rej(req.error);
+  });
+  return idbPromise;
+}
+async function localPut(id, blob) {
+  const db = await localDb();
+  return new Promise((res, rej) => {
+    const tx = db.transaction('files', 'readwrite');
+    tx.objectStore('files').put(blob, id);
+    tx.oncomplete = () => res();
+    tx.onerror = () => rej(tx.error);
+    tx.onabort = () => rej(tx.error);
+  });
+}
+async function localGet(id) {
+  const db = await localDb();
+  return new Promise((res, rej) => {
+    const r = db.transaction('files').objectStore('files').get(id);
+    r.onsuccess = () => res(r.result || null);
+    r.onerror = () => rej(r.error);
+  });
+}
+async function localDel(id) {
+  const db = await localDb();
+  return new Promise(res => {
+    const tx = db.transaction('files', 'readwrite');
+    tx.objectStore('files').delete(id);
+    tx.oncomplete = () => res();
+    tx.onerror = () => res();
+  });
+}
+async function hydrateLocal(files) {
+  for (const f of files) {
+    if (!f.local) continue;
+    try {
+      const blob = await localGet(f.id);
+      if (!blob) continue;
+      const url = URL.createObjectURL(blob);
+      document.querySelectorAll(`[data-lid="${CSS.escape(f.id)}"]`).forEach(el => {
+        if (el.tagName === 'IMG') el.src = url; else el.href = url;
+      });
+    } catch (e) {}
+  }
+}
+function fileUrl(f) {
+  return f.local ? '' : '/_blob/' + f.id;
+}
+
+function openEvidence(id) {
+  evInitId = id;
+  renderEvidence();
+  openDialog('evDlg');
+}
+function renderEvidence() {
+  const x = state.initiatives.find(v => v.id === evInitId);
+  if (!x) return;
+  setText('evTitle', x.content);
+  $('evList').innerHTML = x.files.length
+    ? x.files.map(f => `<div class="ev-item">
+        ${f.type.startsWith('image/')
+          ? `<img class="ev-thumb" src="${esc(fileUrl(f))}" data-lid="${esc(f.id)}" alt="${esc(f.name)}" loading="lazy">`
+          : '<span class="ev-doc" aria-hidden="true">PDF</span>'}
+        <div class="ev-info">
+          <a href="${esc(fileUrl(f))}" data-lid="${esc(f.id)}" target="_blank" rel="noopener">${esc(f.name)}</a>
+          <small>${fmtSize(f.size)}${f.addedAt ? ' · Đính kèm ngày ' + fmtDate(f.addedAt) : ''}</small>
+        </div>
+        ${(assetsApi || STANDALONE || f.local) ? `<button class="btn btn-ghost btn-sm" data-ev-del="${esc(f.id)}" style="color:var(--bad)">Xóa</button>` : ''}
+      </div>`).join('')
+    : '<p class="muted" style="margin:0">Chưa có tệp minh chứng nào được đính kèm.</p>';
+  hydrateLocal(x.files);
+  const canUpload = !!assetsApi || STANDALONE;
+  $('evUploadWrap').hidden = !canUpload;
+  $('evNoUpload').hidden = canUpload;
+}
+async function uploadEvidence() {
+  const input = $('evFile');
+  const files = Array.from(input.files || []);
+  const x = state.initiatives.find(v => v.id === evInitId);
+  if (!x) return;
+  if (!files.length) return showToast('Vui lòng chọn ít nhất một tệp.');
+  if (!assetsApi && STANDALONE) return uploadEvidenceLocal(files, input, x);
+  if (!assetsApi) return showToast('Trang này không cho phép tải tệp lên.');
+  $('evUploadBtn').disabled = true;
+  let added = 0;
+  for (const file of files) {
+    if (!EVIDENCE_TYPES.includes(file.type)) { showToast(`${file.name}: ${EV_ERR.unsupported_type}`); continue; }
+    if (file.size > EVIDENCE_MAX) { showToast(`${file.name}: ${EV_ERR.too_large}`); continue; }
+    try {
+      const r = await assetsApi.upload(file, { type: file.type });
+      x.files.push({ id: r.id, name: file.name, type: r.contentType || file.type, size: r.sizeBytes, addedAt: todayISO() });
+      persist();
+      added++;
+    } catch (e) {
+      showToast(`${file.name}: ${evErr(e)}`);
+      if (e && (e.code === 'quota_or_state' || e.code === 'rate_limited')) break;
+    }
+  }
+  input.value = '';
+  $('evUploadBtn').disabled = false;
+  renderInit();
+  renderEvidence();
+  if (added) showToast(`✓ Đã đính kèm ${added} tệp minh chứng.`);
+}
+async function uploadEvidenceLocal(files, input, x) {
+  let added = 0;
+  for (const file of files) {
+    if (!EVIDENCE_TYPES.includes(file.type)) { showToast(`${file.name}: ${EV_ERR.unsupported_type}`); continue; }
+    if (file.size > LOCAL_FILE_MAX) { showToast(`${file.name}: tệp trên 20 MB, hãy chọn tệp nhỏ hơn.`); continue; }
+    const id = 'L' + uid();
+    try { await localPut(id, file); }
+    catch (e) { showToast('Không lưu được tệp trên trình duyệt này.'); break; }
+    x.files.push({ id, name: file.name, type: file.type, size: file.size, addedAt: todayISO(), local: true });
+    added++;
+  }
+  input.value = '';
+  persist();
+  renderInit();
+  renderEvidence();
+  if (added) showToast(`✓ Đã đính kèm ${added} tệp minh chứng.`);
+}
+function removeEvidence(fileId) {
+  const x = state.initiatives.find(v => v.id === evInitId);
+  const f = x && x.files.find(v => v.id === fileId);
+  if (!f) return;
+  ask({
+    title: 'Xóa tệp minh chứng?',
+    text: `"${f.name}" sẽ bị xóa khỏi sáng kiến này.`,
+    ok: 'Xóa tệp',
+    danger: true,
+    onOk: async () => {
+      if (f.local) {
+        await localDel(fileId);
+        x.files = x.files.filter(v => v.id !== fileId);
+        commit();
+        renderEvidence();
+        return;
+      }
+      if (!assetsApi) return;
+      try { await assetsApi.delete(fileId); }
+      catch (e) { return showToast(`Không xóa được tệp: ${evErr(e)}`); }
+      x.files = x.files.filter(v => v.id !== fileId);
+      commit();
+      renderEvidence();
+    },
+  });
+}
+function normFiles(list) {
+  return (Array.isArray(list) ? list : [])
+    .filter(f => f && typeof f.id === 'string' && f.id)
+    .map(f => ({
+      id: String(f.id),
+      name: String(f.name || 'tệp'),
+      type: String(f.type || ''),
+      size: num(f.size, 0),
+      addedAt: String(f.addedAt || ''),
+      local: !!f.local,
+    }));
+}
+$('evUploadBtn').addEventListener('click', uploadEvidence);
+$('evList').addEventListener('click', e => {
+  const b = e.target.closest('button[data-ev-del]');
+  if (b) removeEvidence(b.dataset.evDel);
+});
+
+/* ---------- Giao diện & Chủ đề ---------- */
+const UI_KEY = 'kpi_a2a3_ui';
+const PALETTES = {
+  cand:   { accent: '#9b1c1c', fg: '#ffffff', gold: '#c9a227' },
+  doVang: { accent: '#c8102e', fg: '#ffffff', gold: '#f2b705' },
+  xanh:   { accent: '#1d4f91', fg: '#ffffff', gold: '#d4a017' },
+  luc:    { accent: '#17614a', fg: '#ffffff', gold: '#c9a227' },
+  xam:    { accent: '#374151', fg: '#ffffff', gold: '#b8860b' },
+  tim:    { accent: '#5b21b6', fg: '#ffffff', gold: '#e0b44a' },
+  nau:    { accent: '#7c4a1e', fg: '#ffffff', gold: '#d9a441' },
+  dem:    { accent: '#0f2a4a', fg: '#ffffff', gold: '#e6b800' },
+  hong:   { accent: '#9d174d', fg: '#ffffff', gold: '#e8c28a' },
+  cam:    { accent: '#b45309', fg: '#ffffff', gold: '#fcd34d' },
+  ngoc:   { accent: '#0f766e', fg: '#ffffff', gold: '#d6b656' },
+  than:   { accent: '#1f2937', fg: '#ffffff', gold: '#9ca3af' },
+};
+const PAL_LABELS = { cand: 'Đỏ CAND', doVang: 'Đỏ Cờ', xanh: 'Xanh An ninh', luc: 'Xanh Cảnh sát', xam: 'Xám Slate', tim: 'Tím Indigo', nau: 'Nâu Đồng', dem: 'Xanh Đêm', hong: 'Đỏ Ruby', cam: 'Cam Hổ phách', ngoc: 'Ngọc Lục bảo', than: 'Than Chì' };
+const FONTS = { be: '"Be Vietnam Pro"', serif: '"Roboto Slab"', sans: '"Noto Sans"' };
+
+const UI_GROUPS = [
+  { key: 'style', label: 'Phong cách nền', choices: [['classic', 'Hiện đại'], ['giay', 'Giấy dó'], ['lua', 'Lụa'], ['ngoc', 'Ngọc bích'], ['gach', 'Gạch son'], ['tro', 'Tro đá'], ['mucTau', 'Mực tàu'], ['dem', 'Đêm xanh']] },
+  { key: 'texture', label: 'Chất liệu nền', choices: [['none', 'Trơn'], ['wash', 'Ánh màu nhẹ'], ['dots', 'Chấm mờ'], ['grain', 'Hạt giấy'], ['lines', 'Kẻ dòng']] },
+  { key: 'font', label: 'Phông chữ', choices: [['be', 'Be Vietnam Pro'], ['serif', 'Roboto Slab'], ['sans', 'Noto Sans']] },
+  { key: 'size', label: 'Cỡ chữ', choices: [['sm', 'Nhỏ'], ['md', 'Vừa'], ['lg', 'Lớn']] },
+  { key: 'density', label: 'Mật độ bảng', choices: [['compact', 'Gọn'], ['normal', 'Chuẩn'], ['comfy', 'Thoáng']] },
+  { key: 'radius', label: 'Góc bo khung', choices: [['square', 'Vuông vức'], ['soft', 'Bo tiêu chuẩn'], ['round', 'Bo tròn']] },
+  { key: 'shadow', label: 'Đổ bóng thẻ', choices: [['none', 'Phẳng'], ['soft', 'Mềm mại'], ['deep', 'Nổi khối sâu']] },
+  { key: 'cardbar', label: 'Vạch nhấn đầu thẻ', choices: [['off', 'Không'], ['accent', 'Màu chủ đạo'], ['gold', 'Màu vàng kim']] },
+  { key: 'tab', label: 'Kiểu thanh Tab', choices: [['box', 'Khung hộp'], ['pill', 'Viên thuốc'], ['underline', 'Gạch chân']] },
+  { key: 'header', label: 'Thanh đầu trang', choices: [['solid', 'Kính mờ'], ['accent', 'Màu chủ đạo']] },
+  { key: 'motion', label: 'Hiệu ứng chuyển động', choices: [['on', 'Bật'], ['off', 'Tắt']] },
+];
+function buildUIControls() {
+  $('swatches').innerHTML = Object.keys(PALETTES).map(k => {
+    const p = PALETTES[k];
+    return `<button class="swatch" data-palette="${k}" aria-pressed="false"><i style="--a:${p.accent};--g:${p.gold}"></i>${esc(PAL_LABELS[k] || k)}</button>`;
+  }).join('');
+  $('uiGroups').innerHTML = UI_GROUPS.map(g => `<fieldset class="bgset">
+    <legend class="lbl">${esc(g.label)}</legend>
+    ${g.choices.map(([v, l]) => `<label><input type="radio" name="ui-${g.key}" data-ui="${g.key}" value="${v}"> ${esc(l)}</label>`).join('')}
+  </fieldset>`).join('');
+}
+buildUIControls();
+
+const POSTER = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 180"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7f1d1d"/><stop offset="50%" stop-color="#991b1b"/><stop offset="100%" stop-color="#450a0a"/></linearGradient><radialGradient id="r" cx="0.8" cy="0.5" r="0.5"><stop offset="0%" stop-color="#f59e0b" stop-opacity="0.25"/><stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/></radialGradient></defs><rect width="1400" height="180" fill="url(#g)"/><rect width="1400" height="180" fill="url(#r)"/><g fill="#fbbf24" opacity="0.12"><circle cx="1200" cy="90" r="140"/><circle cx="1200" cy="90" r="100" fill="none" stroke="#fbbf24" stroke-width="4"/></g><text x="60" y="75" fill="#fde68a" font-family="Be Vietnam Pro, sans-serif" font-size="16" font-weight="700" letter-spacing="3">CÔNG AN TỈNH HƯNG YÊN</text><text x="60" y="118" fill="#ffffff" font-family="Be Vietnam Pro, sans-serif" font-size="30" font-weight="800">VÌ AN NINH TỔ QUỐC · VÌ HẠNH PHÚC NHÂN DÂN</text><text x="60" y="148" fill="#fca5a5" font-family="Be Vietnam Pro, sans-serif" font-size="14" font-weight="500">Hệ thống Quản lý &amp; Đánh giá KPI Cán bộ, Chiến sĩ theo Khung tiêu chuẩn</text></svg>`);
+
+const UI_DEFAULT = { palette: 'cand', bg: 'none', custom: '', pageBg: 'none', pageImg: '', pageOv: 60, style: 'classic', texture: 'wash', font: 'be', size: 'md', density: 'normal', radius: 'soft', shadow: 'soft', cardbar: 'off', tab: 'box', header: 'solid', ornament: 'none', motion: 'on' };
+let ui = (() => {
+  try { return Object.assign({}, UI_DEFAULT, JSON.parse(localStorage.getItem(UI_KEY) || '{}')); }
+  catch (e) { return Object.assign({}, UI_DEFAULT); }
+})();
+function saveUI() {
+  try { localStorage.setItem(UI_KEY, JSON.stringify(ui)); return true; }
+  catch (e) { return false; }
+}
+function applyUI() {
+  const p = PALETTES[ui.palette] || PALETTES.cand;
+  const root = document.documentElement;
+  const st = root.style;
+  st.setProperty('--accent', p.accent);
+  st.setProperty('--accent-fg', p.fg);
+  st.setProperty('--gold', p.gold);
+  st.setProperty('--font', FONTS[ui.font] || FONTS.be);
+  UI_GROUPS.forEach(g => { root.dataset[g.key] = ui[g.key] || g.choices[0][0]; });
+  const pageOn = ui.pageBg === 'custom' && !!ui.pageImg;
+  root.dataset.pagebg = pageOn ? 'custom' : 'none';
+  root.style.setProperty('--page-img', pageOn ? `url("${ui.pageImg}")` : 'none');
+  root.style.setProperty('--ov', `${Number(ui.pageOv) || 0}%`);
+  document.querySelectorAll('input[name="pageBgChoice"]').forEach(r => { r.checked = r.value === ui.pageBg; });
+  $('pageOvRange').value = String(ui.pageOv);
+  $('pageOvVal').textContent = ui.pageOv + '%';
+  const src = ui.bg === 'poster' ? POSTER : ui.bg === 'custom' ? ui.custom : '';
+  const banner = $('banner');
+  banner.hidden = !src;
+  banner.style.backgroundImage = src ? `url('${src}')` : '';
+  document.querySelectorAll('[data-palette]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.palette === ui.palette)));
+  document.querySelectorAll('input[name="bgChoice"]').forEach(r => { r.checked = r.value === ui.bg; });
+  document.querySelectorAll('input[type="radio"][data-ui]').forEach(r => { r.checked = r.value === ui[r.dataset.ui]; });
+  $('customBgWrap').hidden = ui.bg !== 'custom';
+}
+$('btnUI').addEventListener('click', () => openDialog('themeDlg'));
+document.querySelectorAll('[data-palette]').forEach(b => b.addEventListener('click', () => {
+  ui.palette = b.dataset.palette;
+  saveUI();
+  applyUI();
+}));
+document.querySelectorAll('input[name="bgChoice"]').forEach(r => r.addEventListener('change', () => {
+  ui.bg = r.value;
+  saveUI();
+  applyUI();
+}));
+$('themeDlg').addEventListener('change', e => {
+  const r = e.target;
+  if (!r.dataset || !r.dataset.ui) return;
+  ui[r.dataset.ui] = r.value;
+  saveUI();
+  applyUI();
+});
+document.querySelectorAll('input[name="pageBgChoice"]').forEach(r => r.addEventListener('change', () => {
+  ui.pageBg = r.value;
+  saveUI();
+  applyUI();
+}));
+$('pageOvRange').addEventListener('input', e => { $('pageOvVal').textContent = e.target.value + '%'; });
+$('pageOvRange').addEventListener('change', e => {
+  ui.pageOv = Number(e.target.value);
+  saveUI();
+  applyUI();
+});
+
+function shrinkImage(file, maxSide, quality) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const k = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.naturalWidth * k);
+        c.height = Math.round(img.naturalHeight * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        resolve(c.toDataURL('image/jpeg', quality));
+      } catch (err) { reject(err); }
+      finally { URL.revokeObjectURL(url); }
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('decode')); };
+    img.src = url;
+  });
+}
+$('pageBgFile').addEventListener('change', async e => {
+  const f = e.target.files[0];
+  e.target.value = '';
+  if (!f) return;
+  if (f.size > 15 * 1024 * 1024) { showToast('Ảnh quá lớn. Hãy chọn ảnh dưới 15 MB.'); return; }
+  showToast('Đang xử lý ảnh...');
+  let data = '';
+  try {
+    data = await shrinkImage(f, 2400, 0.86);
+    if (data.length > 3.5 * 1024 * 1024) data = await shrinkImage(f, 1800, 0.75);
+  } catch (err) {
+    if (f.size <= 1024 * 1024) {
+      data = await new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(f); });
+    } else { showToast('Không đọc được ảnh này.'); return; }
+  }
+  ui.pageBg = 'custom';
+  ui.pageImg = data;
+  saveUI();
+  applyUI();
+  showToast('✓ Đã đặt ảnh nền toàn trang.');
+});
+$('uiReset').addEventListener('click', () => {
+  Object.assign(ui, UI_DEFAULT);
+  saveUI();
+  applyUI();
+  showToast('✓ Đã khôi phục giao diện mặc định.');
+});
+$('bgFile').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  if (f.size > 1024 * 1024) { showToast('Hãy chọn ảnh dưới 1 MB.'); e.target.value = ''; return; }
+  const reader = new FileReader();
+  reader.onload = () => {
+    ui.bg = 'custom';
+    ui.custom = reader.result;
+    saveUI();
+    applyUI();
+  };
+  reader.readAsDataURL(f);
+});
+
+/* ---------- Event wiring ---------- */
+function readSettings() {
+  state.settings = {
+    unitName: $('sUnit').value,
+    period: $('sPeriod').value,
+    scoreD: num($('sD').value, 0),
+    bonus: num($('sBonus').value, 0),
+  };
+}
+['sUnit', 'sPeriod', 'sD', 'sBonus'].forEach(id => $(id).addEventListener('input', () => {
+  readSettings();
+  persist();
+  renderHeader();
+  renderSummary();
+}));
+
+// Tabs
+document.querySelectorAll('[data-tab]').forEach(btn => btn.addEventListener('click', () => {
+  const id = btn.dataset.tab;
+  document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', String(b === btn)));
+  document.querySelectorAll('[data-panel]').forEach(p => { p.hidden = p.dataset.panel !== id; });
+}));
+
+// Quick A1 buttons
+$('btnAllTeamOk').addEventListener('click', () => {
+  for (const [k] of A1_TEAM) state.a1.team[k] = 'ok';
+  commit();
+  showToast('✓ Đã đánh giá Đạt toàn bộ tiêu chí Tập thể (30/30 điểm).');
+});
+$('btnAllLeaderOk').addEventListener('click', () => {
+  for (const [k] of A1_LEADER_ITEMS) state.a1.leader[k] = 'ok';
+  commit();
+  showToast('✓ Đã đánh giá Đạt toàn bộ tiêu chí Cá nhân (30/30 điểm).');
+});
+
+// Close buttons
+document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => closeDialog(b.dataset.close)));
+
+// Filters
+$('search').addEventListener('input', debounce(renderTasks, 120));
+$('statusFilter').addEventListener('change', renderTasks);
+
+// Header buttons
+$('btnAddTask').addEventListener('click', () => openTask(null));
+$('btnAddInit').addEventListener('click', () => openInit());
+$('btnCopyExcel').addEventListener('click', () => copyText(buildTSV(state)));
+$('btnPrint').addEventListener('click', () => window.print());
+$('btnData').addEventListener('click', () => openData(JSON.stringify(state, null, 2)));
+$('btnClose').addEventListener('click', () => ask({
+  title: 'Chốt kỳ đánh giá hiện tại',
+  text: 'Kỳ hiện tại sẽ được lưu vào mục Lịch sử. Các nhiệm vụ đã hoàn thành được gỡ khỏi bảng; nhiệm vụ chưa hoàn thành sẽ được chuyển tiếp sang kỳ mới.',
+  ok: 'Chốt kỳ & Chuyển kỳ mới',
+  input: { label: 'Tên kỳ đánh giá mới', value: nextPeriod(state.settings.period) },
+  onOk: closePeriod,
+}));
+
+$('btnTheme').addEventListener('click', () => {
+  const systemDark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const cur = document.documentElement.dataset.theme || (systemDark ? 'dark' : 'light');
+  setTheme(cur === 'dark' ? 'light' : 'dark');
+});
+function setTheme(t) {
+  document.documentElement.dataset.theme = t;
+  $('btnTheme').textContent = t === 'dark' ? '☀️ Sáng' : '🌙 Tối';
+  try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
+}
+
+// Task table actions
+$('taskBody').addEventListener('click', e => {
+  const b = e.target.closest('button[data-act]');
+  if (!b) return;
+  const id = b.dataset.id;
+  if (b.dataset.act === 'edit') return openTask(id);
+  const t = state.tasks.find(x => x.id === id);
+  ask({
+    title: 'Xóa nhiệm vụ này?',
+    text: t ? t.name : '',
+    ok: 'Xóa nhiệm vụ',
+    danger: true,
+    onOk: () => { state.tasks = state.tasks.filter(x => x.id !== id); commit(); },
+  });
+});
+
+// A1 changes
+['a1Team', 'a1Leader'].forEach(id => $(id).addEventListener('change', e => {
+  const el = e.target;
+  if (el.matches('input[data-a1]')) {
+    const part = el.dataset.a1, key = el.dataset.key, value = el.value;
+    state.a1[part][key] = value;
+    persist();
+    renderA1();
+    renderSummary();
+    renderHistory();
+  } else if (el.matches('input[data-note]')) {
+    state.a1.notes[`${el.dataset.note}:${el.dataset.key}`] = el.value.trim();
+    persist();
+  }
+}));
+
+// Initiative actions
+$('initBody').addEventListener('click', e => {
+  const b = e.target.closest('button[data-act]');
+  if (!b) return;
+  const id = b.dataset.id;
+  if (b.dataset.act === 'ev') return openEvidence(id);
+  if (b.dataset.act === 'edit') return openInit(id);
+  if (b.dataset.act !== 'del') return;
+  const x = state.initiatives.find(v => v.id === id);
+  ask({
+    title: 'Xóa đột phá, sáng kiến?',
+    text: x && x.files.length ? 'Các tệp minh chứng đính kèm cũng sẽ bị xóa.' : '',
+    ok: 'Xóa',
+    danger: true,
+    onOk: () => {
+      if (x && assetsApi) x.files.forEach(f => { if (!f.local) assetsApi.delete(f.id).catch(() => {}); });
+      if (x) x.files.forEach(f => { if (f.local) localDel(f.id); });
+      state.initiatives = state.initiatives.filter(v => v.id !== id);
+      commit();
+    },
+  });
+});
+
+// History actions
+$('histBody').addEventListener('click', e => {
+  const b = e.target.closest('button[data-act]');
+  if (!b) return;
+  const h = state.history.find(x => x.id === b.dataset.id);
+  if (!h) return;
+  if (b.dataset.act === 'copy') return copyText(buildTSV(h));
+  ask({
+    title: 'Xóa kỳ đã chốt?',
+    text: `Kỳ "${h.settings.period || '(Không tên)'}" sẽ bị xóa khỏi lịch sử.`,
+    ok: 'Xóa',
+    danger: true,
+    onOk: () => { state.history = state.history.filter(x => x.id !== h.id); commit(); },
+  });
+});
+
+// Task dialog
+$('fPreset').addEventListener('change', () => {
+  const i = $('fPreset').value;
+  if (i === '') return;
+  const p = PRESETS[+i];
+  $('fLevel').value = p[1];
+  $('fScore').value = p[2];
+  previewTask();
+});
+$('taskForm').addEventListener('input', previewTask);
+$('taskForm').addEventListener('submit', e => {
+  e.preventDefault();
+  if (!$('fName').value.trim()) { showToast('Vui lòng nhập tên nhiệm vụ.'); $('fName').focus(); return; }
+  const t = taskFromForm(editingTaskId || uid());
+  const i = state.tasks.findIndex(x => x.id === t.id);
+  if (i >= 0) state.tasks[i] = t;
+  else state.tasks.push(t);
+  closeDialog('taskDlg');
+  commit();
+  showToast('✓ Đã lưu nhiệm vụ.');
+});
+
+// Initiative dialog
+$('initForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const data = {
+    content: $('iContent').value.trim(),
+    startDate: $('iStart').value,
+    endDate: $('iEnd').value,
+    effect: $('iEffect').value.trim(),
+  };
+  const cur = editingInitId ? state.initiatives.find(v => v.id === editingInitId) : null;
+  if (cur) Object.assign(cur, data);
+  else state.initiatives.push({ id: uid(), ...data, files: [] });
+  editingInitId = null;
+  closeDialog('initDlg');
+  commit();
+  showToast('✓ Đã lưu đột phá, sáng kiến.');
+});
+
+// Confirm dialog
+$('cfCancel').addEventListener('click', () => { cfHandler = null; closeDialog('confirmDlg'); });
+$('cfForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const val = $('cfInput').value.trim();
+  const handler = cfHandler;
+  cfHandler = null;
+  closeDialog('confirmDlg');
+  if (handler) handler(val);
+});
+
+// Data dialog
+$('btnCopyJson').addEventListener('click', () => copyText($('exportBox').value));
+$('importFile').addEventListener('change', async e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  $('importBox').value = await f.text();
+  e.target.value = '';
+});
+$('btnImport').addEventListener('click', () => {
+  let obj;
+  try { obj = JSON.parse($('importBox').value); }
+  catch (err) { showToast('Nội dung không phải dữ liệu JSON hợp lệ.'); return; }
+  if (!obj || !Array.isArray(obj.tasks) || !obj.settings) {
+    showToast('File không đúng định dạng của phần mềm này.');
+    return;
+  }
+  ask({
+    title: 'Khôi phục dữ liệu?',
+    text: 'Dữ liệu hiện có trên trình duyệt này sẽ bị thay thế hoàn toàn.',
+    ok: 'Khôi phục',
+    danger: true,
+    onOk: async () => {
+      await restoreLocalFiles(obj.localFiles);
+      state = sanitize(obj);
+      closeDialog('dataDlg');
+      saveNow();
+      renderAll();
+      showToast('✓ Đã khôi phục dữ liệu thành công.');
+    },
+  });
+});
+
+function taskKey(t) {
+  return [t.name, t.assignedProduct, t.assignedLeader, t.deadline]
+    .map(v => String(v || '').trim().toLowerCase().replace(/\s+/g, ' ')).join('|');
+}
+function initKey(x) {
+  return [x.content, x.startDate].map(v => String(v || '').trim().toLowerCase().replace(/\s+/g, ' ')).join('|');
+}
+function planMerge(src) {
+  const plan = { tasks: [], initiatives: [], history: [], skipTasks: 0, skipInit: 0, skipHist: 0 };
+  const seenT = new Set(state.tasks.map(taskKey));
+  const seenTId = new Set(state.tasks.map(t => t.id));
+  sanitize(src).tasks.forEach(t => {
+    const k = taskKey(t);
+    if (seenT.has(k) || seenTId.has(t.id)) { plan.skipTasks++; return; }
+    seenT.add(k); seenTId.add(t.id); plan.tasks.push(t);
+  });
+  const seenI = new Set(state.initiatives.map(initKey));
+  const seenIId = new Set(state.initiatives.map(x => x.id));
+  sanitize(src).initiatives.forEach(x => {
+    const k = initKey(x);
+    if (seenI.has(k) || seenIId.has(x.id)) { plan.skipInit++; return; }
+    seenI.add(k); seenIId.add(x.id); plan.initiatives.push(x);
+  });
+  const seenH = new Set(state.history.map(h => h.id));
+  sanitize(src).history.forEach(h => {
+    if (seenH.has(h.id)) { plan.skipHist++; return; }
+    seenH.add(h.id); plan.history.push(h);
+  });
+  return plan;
+}
+$('btnMerge').addEventListener('click', () => {
+  let obj;
+  try { obj = JSON.parse($('importBox').value); }
+  catch (err) { showToast('Nội dung không phải dữ liệu JSON hợp lệ.'); return; }
+  if (!obj || !Array.isArray(obj.tasks) || !obj.settings) {
+    showToast('File không đúng định dạng của phần mềm này.');
+    return;
+  }
+  const plan = planMerge(obj);
+  const total = plan.tasks.length + plan.initiatives.length + plan.history.length;
+  if (!total) { showToast('Không có bản ghi mới để gộp.'); return; }
+  ask({
+    title: 'Gộp dữ liệu?',
+    text: `Sẽ thêm ${plan.tasks.length} nhiệm vụ, ${plan.initiatives.length} đột phá, ${plan.history.length} kỳ lịch sử. Bỏ qua các bản ghi trùng.`,
+    ok: 'Gộp dữ liệu',
+    onOk: async () => {
+      await restoreLocalFiles(obj.localFiles);
+      state.tasks.push(...plan.tasks);
+      state.initiatives.push(...plan.initiatives);
+      state.history.push(...plan.history);
+      closeDialog('dataDlg');
+      saveNow();
+      renderAll();
+      showToast(`✓ Đã gộp ${total} bản ghi mới.`);
+    },
+  });
+});
+
+function blobToDataURL(blob) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.onerror = () => rej(r.error);
+    r.readAsDataURL(blob);
+  });
+}
+async function fullBackupText() {
+  const out = JSON.parse(JSON.stringify(state));
+  out.localFiles = {};
+  const all = [...state.initiatives, ...state.history.flatMap(h => h.initiatives)];
+  for (const x of all) {
+    for (const f of x.files) {
+      if (!f.local || out.localFiles[f.id]) continue;
+      const blob = await localGet(f.id);
+      if (blob) out.localFiles[f.id] = await blobToDataURL(blob);
+    }
+  }
+  return JSON.stringify(out);
+}
+async function restoreLocalFiles(map) {
+  for (const [id, dataUrl] of Object.entries(map || {})) {
+    try { await localPut(id, await (await fetch(dataUrl)).blob()); } catch (e) {}
+  }
+}
+$('btnFullBackup').hidden = !STANDALONE;
+$('btnFullBackup').addEventListener('click', async () => {
+  try {
+    const text = await fullBackupText();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+    a.download = `kpi-sao-luu-${todayISO()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    showToast('✓ Đã tải file sao lưu đầy đủ.');
+  } catch (e) {
+    showToast('Không tạo được file sao lưu. Hãy thử lại.');
+  }
+});
+$('btnClearAll').addEventListener('click', () => ask({
+  title: 'Xóa toàn bộ dữ liệu?',
+  text: 'Toàn bộ nhiệm vụ, đột phá, sáng kiến và lịch sử trên trình duyệt này sẽ bị xóa vĩnh viễn. Hãy chắc chắn bạn đã sao lưu.',
+  ok: 'Xóa tất cả',
+  danger: true,
+  onOk: () => { state = sanitize({}); closeDialog('dataDlg'); saveNow(); renderAll(); showToast('Đã xóa sạch dữ liệu.'); },
+}));
+
+// Build select options
+(function buildOptions() {
+  const sel = $('fPreset');
+  const groups = {};
+  PRESETS.forEach((p, i) => {
+    (groups[p[0]] = groups[p[0]] || []).push(`<option value="${i}">[${p[2]} điểm] ${esc(p[1])}</option>`);
+  });
+  sel.insertAdjacentHTML('beforeend', Object.entries(groups)
+    .map(([g, opts]) => `<optgroup label="${esc(g)}">${opts.join('')}</optgroup>`).join(''));
+  $('fQuality').innerHTML = QUALITY.map(([f, r, l]) => `<option value="${f}|${r}">${esc(l)}</option>`).join('');
+  $('fProgress').innerHTML = PROGRESS.map(([v, l]) => `<option value="${v}">${esc(l)}</option>`).join('');
+})();
+
+window.addEventListener('pagehide', saveNow);
+document.addEventListener('visibilitychange', () => { if (document.hidden) saveNow(); });
+
+function applyTheme(t) {
+  document.documentElement.dataset.theme = t;
+  $('btnTheme').textContent = t === 'dark' ? '☀️ Sáng' : '🌙 Tối';
+}
+try {
+  const saved = localStorage.getItem(THEME_KEY);
+  if (saved === 'light' || saved === 'dark') applyTheme(saved);
+  else applyTheme(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+} catch (e) {
+  applyTheme(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+}
+
+applyUI();
+renderAll();
+if (!storageOk) $('storageWarn').hidden = false;
+})();
+</script>
+</body>
+</html>
